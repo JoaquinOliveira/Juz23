@@ -1,0 +1,13 @@
+.form-container {
+    background-color: #f5f5f5;  /* Fondo gris */
+    padding: 20px;              /* Espaciado interior para evitar que se tope con los bordes */
+    width: 100%;                /* Ancho del formulario */
+    max-width: 500px;           /* Máximo ancho del formulario */
+    margin: 20px auto;          /* Centrar el formulario y añadir espacio arriba y abajo */
+    border-radius: 8px;         /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra ligera para dar profundidad */
+}
+
+.ant-form-item-label > label {
+    color: #333; /* Mejorar el contraste de las etiquetas con el fondo */
+}
