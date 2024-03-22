@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ResolutionForm.css';
 import FormNulidades from './FormNulidades';
 import FormPrueba from './FormPrueba';
@@ -8,6 +8,8 @@ import Hurto from './Incompetencias/Hurto';
 import Robo from './Incompetencias/Robo';
 import Territorio from './Incompetencias/Territorio';
 import Falsificacion from './Incompetencias/Falsificacion';
+import Conexidad from './Incompetencias/Conexidad';
+
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
 
@@ -42,6 +44,12 @@ const ResolutionForm = () => {
         setSubTipoResolucion(value);
     };
 
+    useEffect(() => {
+        document.body.classList.add('light-mode');
+        return () => {
+            document.body.classList.remove('light-mode');
+        };
+    }, []);
 
 
     const renderFormularioEspecifico = () => {
@@ -57,6 +65,7 @@ const ResolutionForm = () => {
                 'hurto': Hurto,
                 'robo': Robo,
                 'territorio': Territorio,
+                'conexidad: multiples delitos': Conexidad,
             },
         };
 
@@ -75,9 +84,9 @@ const ResolutionForm = () => {
 
     return (
         <>
-
             <div className="select-container">
                 <Select
+                    className= "prueba"
                     value={tipoResolucion}
                     onChange={handleTipoChange}
                     placeholder="Seleccione un tipo de resolución"
@@ -89,6 +98,7 @@ const ResolutionForm = () => {
                     ))}
                 </Select>
                 <Select
+                    className='prueba'
                     value={subTipoResolucion}
                     onChange={handleSubTipoChange}
                     placeholder="Seleccione un subtipo"

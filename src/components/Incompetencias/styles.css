@@ -18,18 +18,20 @@ body {
 }
 
 .ant-select-item-option-content {
-  color: var(--input-text-color);
+  color: var(--input-text-color); /* Usar el color de texto de los inputs */
 }
 
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
-  background-color: var(--primary-color);
-  color: var(--button-text-color);
+  background-color: var(--primary-color); /* Sin cambios */
+  color: var(--button-text-color); /* Usar el color de texto de los botones */
 }
 
 .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-  background-color: var(--form-background-color);
+  background-color: var(--form-background-color); /* Usar el color de fondo del formulario */
 }
-
+.ant-select-item-option-content {
+  color: var(--input-text-color);
+}
 
 
 .header-container,

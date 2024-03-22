@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Row, Col, Button, Input, DatePicker, Select, message } from 'antd';
+import { Form, Button, Input, Select, message } from 'antd';
 import obtenerUrlDescarga from '../../firebase/firestore';
 import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
 import './styles.css';
@@ -42,8 +42,9 @@ const Hurto = ({ subTipo }) => {
 
     return (
         <>
-            <h2 className="form-title">Formulario de Hurto</h2>
+            <h2 className="form-title hurto-title"> Formulario de Hurto</h2>
             <Form
+                className="form-item"
                 form={form}
                 onFinish={handleSubmit}
                 onFieldsChange={onFieldsChange}
@@ -103,6 +104,14 @@ const Hurto = ({ subTipo }) => {
                 >
                     <TextArea rows={3} />
                 </Form.Item>
+                <Form.Item
+                    label="Querella"
+                    name="querella"
+                >
+                    <TextArea rows={1} />
+                </Form.Item>
+
+
                 <Form.Item>
                     <Button
                         className="form-button"

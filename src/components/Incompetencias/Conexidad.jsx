@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { Form, Button, Input, Select, message } from 'antd';
+import { Form, Checkbox, Button, Input, DatePicker, Select, message } from 'antd';
 import obtenerUrlDescarga from '../../firebase/firestore';
 import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
 import './styles.css';
 
+
 const { TextArea } = Input;
 const { Option } = Select;
 
-const Robo = ({ subTipo }) => {
+const Conexidad = ({ subTipo }) => {
     const [form] = Form.useForm();
     const [isFormValid, setIsFormValid] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+    const [selectedDelitos, setSelectedDelitos] = useState([]);
+
+    const delitos = ['Delito 1', 'Delito 2', 'Delito 3', 'Delito 4'];
 
     const onFieldsChange = (_, allFields) => {
         const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
@@ -29,7 +33,14 @@ const Robo = ({ subTipo }) => {
             setIsLoadingTemplate(true);
             const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
             setIsLoadingTemplate(false);
-            const modifiedDocument = await fillWordTemplate(values, templateUrl);
+
+            // Agregar los delitos seleccionados a los valores del formulario
+            const valoresConDelitos = {
+                ...values,
+                delitos: selectedDelitos,
+            };
+
+            const modifiedDocument = await fillWordTemplate(valoresConDelitos, templateUrl);
             downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
             message.success('El formulario se ha enviado correctamente');
         } catch (error) {
@@ -40,9 +51,13 @@ const Robo = ({ subTipo }) => {
         }
     };
 
+    const handleDelitosChange = (selectedValues) => {
+        setSelectedDelitos(selectedValues);
+    };
+
     return (
         <>
-            <h2 className="form-title hurto-title"> Formulario de Robo</h2>
+            <h2 className="form-title hurto-title">Formulario de Conexidad</h2>
             <Form
                 className="form-item"
                 form={form}
@@ -105,13 +120,24 @@ const Robo = ({ subTipo }) => {
                     <TextArea rows={3} />
                 </Form.Item>
                 <Form.Item
-                    label="Querella"
-                    name="querella"
+                    className="form-item"
+                    label="Delitos"
+                    name="delitos"
                 >
-                    <TextArea rows={1} />
+                    <Select
+                        mode="multiple"
+                        placeholder="Seleccione los delitos"
+                        onChange={handleDelitosChange}
+                    >
+                        {delitos.map((delito) => (
+                            <Option key={delito} value={delito}>
+                                <Checkbox checked={selectedDelitos.includes(delito)}>
+                                    {delito}
+                                </Checkbox>
+                            </Option>
+                        ))}
+                    </Select>
                 </Form.Item>
-
-
                 <Form.Item>
                     <Button
                         className="form-button"
@@ -122,9 +148,10 @@ const Robo = ({ subTipo }) => {
                         {isSubmitting || isLoadingTemplate ? 'Cargando...' : 'Enviar'}
                     </Button>
                 </Form.Item>
+
             </Form>
         </>
     );
 };
 
-export default Robo;
+export default Conexidad;
