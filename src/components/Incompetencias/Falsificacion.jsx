@@ -6,7 +6,7 @@ import './styles.css'
 
 const { TextArea } = Input;
 
-const HomicidioCulposo = ({ subTipo }) => {
+const Falsificacion = ({ subTipo }) => {
     const [form] = Form.useForm();
     const [isFormValid, setIsFormValid] = useState(false);
 
@@ -57,14 +57,6 @@ const HomicidioCulposo = ({ subTipo }) => {
             </Form.Item>
 
             <Form.Item
-                label="Imputado"
-                name="imputado"
-                rules={[{ required: true, message: 'El imputado es obligatorio' }]}
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
                 label="Hechos"
                 name="hechos"
                 rules={[{ required: true, message: 'Los hechos son obligatorios' }]}
@@ -77,23 +69,14 @@ const HomicidioCulposo = ({ subTipo }) => {
                 name="fiscal"
                 rules={[{ required: false, message: 'La fiscalía es obligatoria' }]}
             >
-                <Input />
+               <TextArea rows={4} />
             </Form.Item>
 
             <Form.Item
                 label="Defensa"
                 name="defensa"
-                rules={[{ required: false, message: 'La defensa es obligatoria' }]}
             >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-                label="Querella"
-                name="querella"
-                rules={[{ required: false, message: 'La querella es obligatoria' }]}
-            >
-                <Input />
+                <TextArea rows={4} />
             </Form.Item>
 
             <Form.Item>
@@ -109,4 +92,4 @@ const HomicidioCulposo = ({ subTipo }) => {
     );
 };
 
-export default HomicidioCulposo;
+export default Falsificacion;

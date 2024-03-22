@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Row, Col, Button, Input } from 'antd';
 import obtenerUrlDescarga from '../../firebase/firestore';
 import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
-import './Fraude.css'
+import './styles.css'
 
 const { TextArea } = Input;
 
