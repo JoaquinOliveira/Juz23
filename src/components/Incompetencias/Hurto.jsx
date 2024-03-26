@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
-import { Form, Button, Input, Select, message } from 'antd';
-import obtenerUrlDescarga from '../../firebase/firestore';
-import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Button, message, Input, Select, Space } from 'antd';
+import { setFormValidity, setSubTipo, handleSubmit, generatePreview } from '../../redux/formSlice';
 import './styles.css';
+import DocumentPreview from './DocumentPreview';
 
-const { TextArea } = Input;
-const { Option } = Select;
+
 
 const Hurto = ({ subTipo }) => {
+    const dispatch = useDispatch();
+    const isFormValid = useSelector((state) => state.form.isFormValid);
+    const isSubmitting = useSelector((state) => state.form.isSubmitting);
+    const isLoadingTemplate = useSelector((state) => state.form.isLoadingTemplate);
+    const previewUrl = useSelector((state) => state.form.previewUrl);
+
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [previewContent, setPreviewContent] = useState('');
+
+    const { TextArea } = Input;
+    const { Option } = Select;
+
     const [form] = Form.useForm();
-    const [isFormValid, setIsFormValid] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+
+
+    const [additionalFields, setAdditionalFields] = useState([]);
+    const handleAdditionalFieldsChange = (selectedFields) => {
+        setAdditionalFields(selectedFields);
+    };
+
+    useEffect(() => {
+        dispatch(setSubTipo(subTipo));
+    }, [dispatch, subTipo]);
 
     const onFieldsChange = (_, allFields) => {
         const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
@@ -19,25 +38,33 @@ const Hurto = ({ subTipo }) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
         });
-        setIsFormValid(isValid);
+        dispatch(setFormValidity(isValid));
     };
 
-    const handleSubmit = async (values) => {
-        setIsSubmitting(true);
+    const onSubmit = async (values) => {
         try {
-            const nombreArchivoPlantilla = `${subTipo}.docx`;
-            setIsLoadingTemplate(true);
-            const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
-            setIsLoadingTemplate(false);
-            const modifiedDocument = await fillWordTemplate(values, templateUrl);
-            downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
-            message.success('El formulario se ha enviado correctamente');
+            const result = await dispatch(handleSubmit(values));
+            message.success(result.payload);
         } catch (error) {
-            console.error('Error:', error);
-            message.error('Ha ocurrido un error al enviar el formulario');
-        } finally {
-            setIsSubmitting(false);
+            message.error(error.message);
         }
+    };
+
+    const handlePreview = async () => {
+        try {
+            const values = await form.validateFields();
+            const fileContent = await dispatch(generatePreview(values)).unwrap();
+            setPreviewContent(fileContent);
+            setIsPreviewOpen(true);
+        } catch (error) {
+            message.error(error.message);
+        }
+    };
+
+
+    const handleClosePreview = () => {
+        setIsPreviewOpen(false);
+        setPreviewContent('');
     };
 
     return (
@@ -46,7 +73,7 @@ const Hurto = ({ subTipo }) => {
             <Form
                 className="form-item"
                 form={form}
-                onFinish={handleSubmit}
+                onFinish={onSubmit}
                 onFieldsChange={onFieldsChange}
                 layout="vertical"
                 requiredMark={false}
@@ -97,31 +124,73 @@ const Hurto = ({ subTipo }) => {
                 >
                     <TextArea rows={3} />
                 </Form.Item>
-                <Form.Item
-                    className="form-item"
-                    label="Defensa"
-                    name="defensa"
-                >
-                    <TextArea rows={3} />
-                </Form.Item>
-                <Form.Item
-                    label="Querella"
-                    name="querella"
-                >
-                    <TextArea rows={1} />
-                </Form.Item>
 
-
-                <Form.Item>
-                    <Button
-                        className="form-button"
-                        type="primary"
-                        htmlType="submit"
-                        disabled={!isFormValid || isSubmitting || isLoadingTemplate}
+                {additionalFields.includes('defensa') && (
+                    <Form.Item
+                        className="form-item"
+                        label="Defensa"
+                        name="defensa"
                     >
-                        {isSubmitting || isLoadingTemplate ? 'Cargando...' : 'Enviar'}
-                    </Button>
+                        <TextArea rows={3} />
+                    </Form.Item>
+                )}
+
+                {additionalFields.includes('querella') && (
+                    <Form.Item
+                        label="Querella"
+                        name="querella"
+                    >
+                        <TextArea rows={1} />
+                    </Form.Item>
+                )}
+                <Form.Item
+                    label="Campos adicionales"
+                    name="additionalFields"
+                >
+                    <Select
+                        mode="multiple"
+                        placeholder="Agrega campos si lo necesitás"
+                        onChange={handleAdditionalFieldsChange}
+                    >
+                        <Option value="defensa">Defensa</Option>
+                        <Option value="querella">Querella</Option>
+                    </Select>
                 </Form.Item>
+                <Form.Item>
+                <Space>
+                        <Button
+                            className="form-button"
+                            type="primary"
+                            onClick={handlePreview}
+                            disabled={!isFormValid || isSubmitting || isLoadingTemplate}
+                            size="large"
+                        >
+                            {isSubmitting || isLoadingTemplate ? '...' : 'Preview'}
+                        </Button>
+                   
+                        <Button
+                            onClick={onSubmit}
+                            className="form-button"
+                            type="primary"
+                            htmlType="submit"
+                            disabled={!isFormValid || isSubmitting || isLoadingTemplate}
+                            size='large'
+                            >
+                            {isSubmitting || isLoadingTemplate ? '...' : 'Enviar'}
+                        </Button>
+         
+               </Space>
+                </Form.Item>
+
+
+                <DocumentPreview
+                    fileContent={previewContent}
+                    isOpen={isPreviewOpen}
+                    onClose={handleClosePreview}
+                    />
+
+
+
             </Form>
         </>
     );

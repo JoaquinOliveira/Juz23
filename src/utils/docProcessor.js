@@ -11,7 +11,7 @@ export const fillWordTemplate = async (formData, templateUrl) => {
             throw new Error(`Error al descargar el archivo: ${response.statusText}`);
         }
         const templateArrayBuffer = await response.arrayBuffer();
-        
+
         // Crear el documento con PizZip y Docxtemplater
         const zip = new PizZip(templateArrayBuffer);
         const doc = new Docxtemplater(zip, {
@@ -20,7 +20,7 @@ export const fillWordTemplate = async (formData, templateUrl) => {
         });
         // Renderizar el documento con los datos del formulario
         doc.render(formData);
-    
+
 
         // Generar el blob final
         const out = doc.getZip().generate({

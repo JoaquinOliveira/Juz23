@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
-import { Form, Button, Input, Select, message } from 'antd';
-import obtenerUrlDescarga from '../../firebase/firestore';
-import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Button, message, Input, Select } from 'antd';
+import { setFormValidity, setSubTipo, handleSubmit } from '../../redux/formSlice';
 import './styles.css';
 
-const { TextArea } = Input;
-const { Option } = Select;
-
 const Robo = ({ subTipo }) => {
+    const dispatch = useDispatch();
+    const isFormValid = useSelector((state) => state.form.isFormValid);
+    const isSubmitting = useSelector((state) => state.form.isSubmitting);
+    const isLoadingTemplate = useSelector((state) => state.form.isLoadingTemplate);
+    const { TextArea } = Input;
+    const { Option } = Select;
+
     const [form] = Form.useForm();
-    const [isFormValid, setIsFormValid] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+
+
+    const [additionalFields, setAdditionalFields] = useState([]);
+    const handleAdditionalFieldsChange = (selectedFields) => {
+        setAdditionalFields(selectedFields);
+    };
+
+    useEffect(() => {
+        dispatch(setSubTipo(subTipo));
+    }, [dispatch, subTipo]);
 
     const onFieldsChange = (_, allFields) => {
         const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
@@ -19,34 +30,26 @@ const Robo = ({ subTipo }) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
         });
-        setIsFormValid(isValid);
+        dispatch(setFormValidity(isValid));
     };
 
-    const handleSubmit = async (values) => {
-        setIsSubmitting(true);
+    const onSubmit = async (values) => {
         try {
-            const nombreArchivoPlantilla = `${subTipo}.docx`;
-            setIsLoadingTemplate(true);
-            const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
-            setIsLoadingTemplate(false);
-            const modifiedDocument = await fillWordTemplate(values, templateUrl);
-            downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
-            message.success('El formulario se ha enviado correctamente');
+            const result = await dispatch(handleSubmit(values));
+            message.success(result.payload);
         } catch (error) {
-            console.error('Error:', error);
-            message.error('Ha ocurrido un error al enviar el formulario');
-        } finally {
-            setIsSubmitting(false);
+            message.error(error.message);
         }
     };
 
+
     return (
         <>
-            <h2 className="form-title hurto-title"> Formulario de Robo</h2>
+            <h2 className="form-title hurto-title"> Formulario de {subTipo}</h2>
             <Form
                 className="form-item"
                 form={form}
-                onFinish={handleSubmit}
+                onFinish={onSubmit}
                 onFieldsChange={onFieldsChange}
                 layout="vertical"
                 requiredMark={false}
@@ -97,18 +100,37 @@ const Robo = ({ subTipo }) => {
                 >
                     <TextArea rows={3} />
                 </Form.Item>
+
+                {additionalFields.includes('defensa') && (
+                    <Form.Item
+                        className="form-item"
+                        label="Defensa"
+                        name="defensa"
+                    >
+                        <TextArea rows={3} />
+                    </Form.Item>
+                )}
+
+                {additionalFields.includes('querella') && (
+                    <Form.Item
+                        label="Querella"
+                        name="querella"
+                    >
+                        <TextArea rows={1} />
+                    </Form.Item>
+                )}
                 <Form.Item
-                    className="form-item"
-                    label="Defensa"
-                    name="defensa"
+                    label="Campos adicionales"
+                    name="additionalFields"
                 >
-                    <TextArea rows={3} />
-                </Form.Item>
-                <Form.Item
-                    label="Querella"
-                    name="querella"
-                >
-                    <TextArea rows={1} />
+                    <Select
+                        mode="multiple"
+                        placeholder="Agrega campos si lo necesitás"
+                        onChange={handleAdditionalFieldsChange}
+                    >
+                        <Option value="defensa">Defensa</Option>
+                        <Option value="querella">Querella</Option>
+                    </Select>
                 </Form.Item>
 
 

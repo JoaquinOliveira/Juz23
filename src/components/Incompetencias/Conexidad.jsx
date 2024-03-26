@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
-import { Form, Checkbox, Button, Input, DatePicker, Select, message } from 'antd';
+
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Form, Checkbox, Button, Input, Select, message } from 'antd';
+import { setFormValidity, setSubTipo } from '../../redux/formSlice';
+import './styles.css';
 import obtenerUrlDescarga from '../../firebase/firestore';
 import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
-import './styles.css';
-
-
-const { TextArea } = Input;
-const { Option } = Select;
 
 const Conexidad = ({ subTipo }) => {
-    const [form] = Form.useForm();
+    const dispatch = useDispatch();
     const [isFormValid, setIsFormValid] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+
+    const { TextArea } = Input;
+    const { Option } = Select;
+
+    const [form] = Form.useForm();
+
+
+    const [additionalFields, setAdditionalFields] = useState([]);
+    const handleAdditionalFieldsChange = (selectedFields) => {
+        setAdditionalFields(selectedFields);
+    };
+
+    useEffect(() => {
+        dispatch(setSubTipo(subTipo));
+    }, [dispatch, subTipo]);
+
     const [selectedDelitos, setSelectedDelitos] = useState([]);
 
     const delitos = ['Delito 1', 'Delito 2', 'Delito 3', 'Delito 4'];
@@ -23,7 +38,7 @@ const Conexidad = ({ subTipo }) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
         });
-        setIsFormValid(isValid);
+        dispatch(setFormValidity(isValid));
     };
 
     const handleSubmit = async (values) => {
@@ -55,9 +70,10 @@ const Conexidad = ({ subTipo }) => {
         setSelectedDelitos(selectedValues);
     };
 
+
     return (
         <>
-            <h2 className="form-title hurto-title">Formulario de Conexidad</h2>
+            <h2 className="form-title hurto-title"> Formulario de {subTipo}</h2>
             <Form
                 className="form-item"
                 form={form}
@@ -112,13 +128,7 @@ const Conexidad = ({ subTipo }) => {
                 >
                     <TextArea rows={3} />
                 </Form.Item>
-                <Form.Item
-                    className="form-item"
-                    label="Defensa"
-                    name="defensa"
-                >
-                    <TextArea rows={3} />
-                </Form.Item>
+
                 <Form.Item
                     className="form-item"
                     label="Delitos"
@@ -126,7 +136,7 @@ const Conexidad = ({ subTipo }) => {
                 >
                     <Select
                         mode="multiple"
-                        placeholder="Seleccione los delitos"
+                        placeholder="Seleccione los delitos de nuestra causa"
                         onChange={handleDelitosChange}
                     >
                         {delitos.map((delito) => (
@@ -136,6 +146,37 @@ const Conexidad = ({ subTipo }) => {
                                 </Checkbox>
                             </Option>
                         ))}
+                    </Select>
+                </Form.Item>
+                {additionalFields.includes('defensa') && (
+                    <Form.Item
+                        className="form-item"
+                        label="Defensa"
+                        name="defensa"
+                    >
+                        <TextArea rows={3} />
+                    </Form.Item>
+                )}
+
+                {additionalFields.includes('querella') && (
+                    <Form.Item
+                        label="Querella"
+                        name="querella"
+                    >
+                        <TextArea rows={1} />
+                    </Form.Item>
+                )}
+                <Form.Item
+                    label="Campos adicionales"
+                    name="additionalFields"
+                >
+                    <Select
+                        mode="multiple"
+                        placeholder="Agrega campos si lo necesitás"
+                        onChange={handleAdditionalFieldsChange}
+                    >
+                        <Option value="defensa">Defensa</Option>
+                        <Option value="querella">Querella</Option>
                     </Select>
                 </Form.Item>
                 <Form.Item>

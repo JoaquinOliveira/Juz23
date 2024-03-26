@@ -9,9 +9,11 @@ import Robo from './Incompetencias/Robo';
 import Territorio from './Incompetencias/Territorio';
 import Falsificacion from './Incompetencias/Falsificacion';
 import Conexidad from './Incompetencias/Conexidad';
+import Turno from './Incompetencias/Turno'
 
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
+import Coactivas from './Incompetencias/Coactivas';
 
 const { Option } = Select;
 
@@ -24,8 +26,8 @@ const ResolutionForm = () => {
         Nulidades: ['probando', 'requerimiento', 'investigacion', 'ha lugar'],
         Allanamiento: ['drogas', 'armas', 'pornografía', 'prueba'],
         Incompetencias: [
+            'coactivas',
             'falsificacion',
-            'coativas',
             'fraude',
             'territorio',
             'conexidad: multiples delitos',
@@ -66,6 +68,8 @@ const ResolutionForm = () => {
                 'robo': Robo,
                 'territorio': Territorio,
                 'conexidad: multiples delitos': Conexidad,
+                'turno': Turno,
+                'coactivas': Coactivas
             },
         };
 

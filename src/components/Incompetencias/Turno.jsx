@@ -4,7 +4,7 @@ import { Form, Button, message, Input, Select } from 'antd';
 import { setFormValidity, setSubTipo, handleSubmit } from '../../redux/formSlice';
 import './styles.css';
 
-const HomicioCulposo = ({ subTipo }) => {
+const Turno = ({ subTipo }) => {
     const dispatch = useDispatch();
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
@@ -149,4 +149,4 @@ const HomicioCulposo = ({ subTipo }) => {
     );
 };
 
-export default HomicioCulposo;
+export default Turno;
