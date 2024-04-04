@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, message, Input, Select } from 'antd';
-import { setFormValidity, setSubTipo, handleSubmit } from '../../redux/formSlice';
+import { Form, Button, message, Input, Select, Space } from 'antd';
+import { setFormValidity, setSubTipo, handleSubmit, generatePreview } from '../../redux/formSlice';
 import './styles.css';
+import DocumentPreview from './DocumentPreview';
+
+
 
 const Falsificacion = ({ subTipo }) => {
     const dispatch = useDispatch();
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
     const isLoadingTemplate = useSelector((state) => state.form.isLoadingTemplate);
+
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [previewContent, setPreviewContent] = useState('');
+
     const { TextArea } = Input;
     const { Option } = Select;
 
@@ -42,10 +49,26 @@ const Falsificacion = ({ subTipo }) => {
         }
     };
 
+    const handlePreview = async () => {
+        try {
+            const values = await form.validateFields();
+            const fileContent = await dispatch(generatePreview(values)).unwrap();
+            setPreviewContent(fileContent);
+            setIsPreviewOpen(true);
+        } catch (error) {
+            message.error(error.message);
+        }
+    };
+
+
+    const handleClosePreview = () => {
+        setIsPreviewOpen(false);
+        setPreviewContent('');
+    };
 
     return (
         <>
-            <h2 className="form-title hurto-title"> Formulario de {subTipo}</h2>
+            <h2 className="form-title hurto-title"> Formulario de Falsificación</h2>
             <Form
                 className="form-item"
                 form={form}
@@ -132,18 +155,34 @@ const Falsificacion = ({ subTipo }) => {
                         <Option value="querella">Querella</Option>
                     </Select>
                 </Form.Item>
-
-
                 <Form.Item>
-                    <Button
-                        className="form-button"
-                        type="primary"
-                        htmlType="submit"
-                        disabled={!isFormValid || isSubmitting || isLoadingTemplate}
-                    >
-                        {isSubmitting || isLoadingTemplate ? 'Cargando...' : 'Enviar'}
-                    </Button>
+                    <Space>
+                        <Button
+                            className="form-button"
+                            type="primary"
+                            onClick={handlePreview}
+                            disabled={!isFormValid || isSubmitting || isLoadingTemplate}
+                            size="large"
+                        >
+                            {isSubmitting || isLoadingTemplate ? '...' : 'Preview'}
+                        </Button>
+                        <Button
+                            onClick={onSubmit}
+                            className="form-button"
+                            type="primary"
+                            htmlType="submit"
+                            disabled={!isFormValid || isSubmitting || isLoadingTemplate}
+                            size='large'
+                        >
+                            {isSubmitting || isLoadingTemplate ? '...' : 'Enviar'}
+                        </Button>
+                    </Space>
                 </Form.Item>
+                <DocumentPreview
+                    fileContent={previewContent}
+                    isOpen={isPreviewOpen}
+                    onClose={handleClosePreview}
+                />
             </Form>
         </>
     );

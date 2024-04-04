@@ -1,17 +1,17 @@
 
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Checkbox, Button, Input, Select, message } from 'antd';
-import { setFormValidity, setSubTipo } from '../../redux/formSlice';
+import { setFormValidity, setSubTipo, setSubmitting, setLoadingTemplate } from '../../redux/formSlice';
 import './styles.css';
 import obtenerUrlDescarga from '../../firebase/firestore';
 import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
 
 const Conexidad = ({ subTipo }) => {
     const dispatch = useDispatch();
-    const [isFormValid, setIsFormValid] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+    const isFormValid = useSelector((state) => state.form.isFormValid);
+    const isSubmitting = useSelector((state) => state.form.isSubmitting);
+    const isLoadingTemplate = useSelector((state) => state.form.isLoadingTemplate);
 
     const { TextArea } = Input;
     const { Option } = Select;
@@ -29,8 +29,10 @@ const Conexidad = ({ subTipo }) => {
     }, [dispatch, subTipo]);
 
     const [selectedDelitos, setSelectedDelitos] = useState([]);
+    const [selectedDelitosOtros, setSelectedDelitosOtros] = useState([])
 
-    const delitos = ['Delito 1', 'Delito 2', 'Delito 3', 'Delito 4'];
+    const delitos = ['amenazas', 'daños', 'lesiones', 'homicidio'];
+ 
 
     const onFieldsChange = (_, allFields) => {
         const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
@@ -42,17 +44,18 @@ const Conexidad = ({ subTipo }) => {
     };
 
     const handleSubmit = async (values) => {
-        setIsSubmitting(true);
+        setSubmitting(true);
         try {
             const nombreArchivoPlantilla = `${subTipo}.docx`;
-            setIsLoadingTemplate(true);
+            setLoadingTemplate(true);
             const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
-            setIsLoadingTemplate(false);
+            setLoadingTemplate(false);
 
             // Agregar los delitos seleccionados a los valores del formulario
             const valoresConDelitos = {
                 ...values,
                 delitos: selectedDelitos,
+                delitosOtros: selectedDelitosOtros
             };
 
             const modifiedDocument = await fillWordTemplate(valoresConDelitos, templateUrl);
@@ -62,14 +65,16 @@ const Conexidad = ({ subTipo }) => {
             console.error('Error:', error);
             message.error('Ha ocurrido un error al enviar el formulario');
         } finally {
-            setIsSubmitting(false);
+            setLoadingTemplate(false);
         }
     };
 
     const handleDelitosChange = (selectedValues) => {
         setSelectedDelitos(selectedValues);
+        setSelectedDelitosOtros(selectedValues)
     };
 
+    
 
     return (
         <>
@@ -131,7 +136,7 @@ const Conexidad = ({ subTipo }) => {
 
                 <Form.Item
                     className="form-item"
-                    label="Delitos"
+                    label="Delitos Nuestros"
                     name="delitos"
                 >
                     <Select
@@ -147,6 +152,28 @@ const Conexidad = ({ subTipo }) => {
                             </Option>
                         ))}
                     </Select>
+                    
+                </Form.Item>
+
+                <Form.Item
+                    className="form-item"
+                    label="Delitos Ajenos"
+                    name="delitos"
+                >
+                    <Select
+                        mode="multiple"
+                        placeholder="Seleccione los delitos de la conexidad"
+                        onChange={handleDelitosChange}
+                    >
+                        {delitos.map((delito) => (
+                            <Option key={delito} value={delito}>
+                                <Checkbox checked={selectedDelitosOtros.includes(delito)}>
+                                    {delito}
+                                </Checkbox>
+                            </Option>
+                        ))}
+                    </Select>
+                    
                 </Form.Item>
                 {additionalFields.includes('defensa') && (
                     <Form.Item

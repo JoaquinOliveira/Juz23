@@ -12,7 +12,6 @@ const Hurto = ({ subTipo }) => {
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
     const isLoadingTemplate = useSelector((state) => state.form.isLoadingTemplate);
-    const previewUrl = useSelector((state) => state.form.previewUrl);
 
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewContent, setPreviewContent] = useState('');
@@ -157,7 +156,7 @@ const Hurto = ({ subTipo }) => {
                     </Select>
                 </Form.Item>
                 <Form.Item>
-                <Space>
+                    <Space>
                         <Button
                             className="form-button"
                             type="primary"
@@ -167,7 +166,6 @@ const Hurto = ({ subTipo }) => {
                         >
                             {isSubmitting || isLoadingTemplate ? '...' : 'Preview'}
                         </Button>
-                   
                         <Button
                             onClick={onSubmit}
                             className="form-button"
@@ -175,22 +173,16 @@ const Hurto = ({ subTipo }) => {
                             htmlType="submit"
                             disabled={!isFormValid || isSubmitting || isLoadingTemplate}
                             size='large'
-                            >
+                        >
                             {isSubmitting || isLoadingTemplate ? '...' : 'Enviar'}
                         </Button>
-         
-               </Space>
+                    </Space>
                 </Form.Item>
-
-
                 <DocumentPreview
                     fileContent={previewContent}
                     isOpen={isPreviewOpen}
                     onClose={handleClosePreview}
-                    />
-
-
-
+                />
             </Form>
         </>
     );

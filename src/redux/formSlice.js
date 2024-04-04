@@ -34,19 +34,16 @@ export const generatePreview = createAsyncThunk(
         try {
             const subTipo = getState().form.subTipo;
             const nombreArchivoPlantilla = `${subTipo}.docx`;
-            console.log('Nombre de archivo de plantilla:', nombreArchivoPlantilla);
             dispatch(setLoadingTemplate(true));
             const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
-            console.log('URL de descarga de la plantilla:', templateUrl);
             const modifiedDocument = await fillWordTemplate(values, templateUrl);
             const previewContainer = document.createElement('div');
             await renderAsync(modifiedDocument, previewContainer);
             const previewHtml = previewContainer.innerHTML;
-            console.log('HTML de vista previa:', previewHtml);
             // ...
             dispatch(setLoadingTemplate(false));
             return previewHtml;
-       
+
 
 
         } catch (error) {
@@ -57,7 +54,37 @@ export const generatePreview = createAsyncThunk(
         }
     }
 );
+export const handleSubmitTipo = createAsyncThunk(
+    'form/handleSubmit',
+    async (formValues, { dispatch, getState }) => {
+        dispatch(setSubmitting(true));
+        try {
+            const subTipo = getState().form.subTipo;
+            const nombreArchivoPlantilla = `${subTipo}.docx`;
+            dispatch(setLoadingTemplate(true));
+            const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
+            dispatch(setLoadingTemplate(false));
 
+            // Desestructurar los valores del formulario
+            const { tipo, ...otherValues } = formValues;
+
+            // Combinar los valores en un solo objeto
+            const templateValues = {
+                ...otherValues,
+                [tipo]: true,
+            };
+
+            const modifiedDocument = await fillWordTemplate(templateValues, templateUrl);
+            downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
+            return 'El formulario se ha enviado correctamente';
+        } catch (error) {
+            console.error('Error:', error);
+            throw new Error('Ha ocurrido un error al enviar el formulario');
+        } finally {
+            dispatch(setSubmitting(false));
+        }
+    }
+);
 
 const formSlice = createSlice({
     name: 'form',
@@ -67,8 +94,6 @@ const formSlice = createSlice({
         isLoadingTemplate: false,
         draftData: null,
         subTipo: '',
-        previewUrl: null,
-
     },
 
     reducers: {
@@ -89,12 +114,7 @@ const formSlice = createSlice({
             state.previewBlob = action.payload;
         },
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(generatePreview.fulfilled, (state, action) => {
-                state.previewBlob = action.payload;
-            })
-    }
+
 });
 
 export const { setFormValidity, setSubmitting, setLoadingTemplate, setSubTipo, setPreviewBlob } = formSlice.actions;
