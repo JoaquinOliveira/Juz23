@@ -27,7 +27,7 @@ export const fillWordTemplate = async (formData, templateUrl) => {
             type: 'blob',
             mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         });
-        console.log("Blob generado:", out);
+        
 
         return out;
     } catch (error) {

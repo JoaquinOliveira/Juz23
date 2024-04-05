@@ -1,7 +1,7 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-import ResolutionForm from './components/ResolutionForm';
-import Login from './components/Login';
+import ResolutionForm from './components/Form/ResolutionForm';
+import Login from './components/Login/Login';
 import './App.css';
 import logo from './utils/logo/logo.png';
 import { Switch } from 'antd';
@@ -10,7 +10,8 @@ import { Switch } from 'antd';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState();
+
 
   const handleThemeChange = (checked) => {
     setIsDarkMode(checked);
@@ -36,8 +37,8 @@ const App = () => {
                 <Switch
                     checked={isDarkMode}
                     onChange={handleThemeChange}
-                    checkedChildren="Dark"
-                    unCheckedChildren="Light"
+                    unCheckedChildren="Dark"
+                    CheckedChildren="Light"
                 />
             </div>
           <h2 className="description">Elija el tipo de resolución</h2>

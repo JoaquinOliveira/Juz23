@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './ResolutionForm.css';
-import FormNulidades from './FormNulidades';
-import FormPrueba from './FormPrueba';
-import HomicidioCulposo from './Incompetencias/HomicidioCulposo';
-import Fraude from './Incompetencias/Fraude';
-import Hurto from './Incompetencias/Hurto';
-import Robo from './Incompetencias/Robo';
-import Territorio from './Incompetencias/Territorio';
-import Falsificacion from './Incompetencias/Falsificacion';
-import Conexidad from './Incompetencias/Conexidad';
-import Turno from './Incompetencias/Turno'
+
+import HomicidioCulposo from '../Incompetencias/HomicidioCulposo';
+import Fraude from '../Incompetencias/Fraude';
+import Hurto from '../Incompetencias/Hurto';
+import Robo from '../Incompetencias/Robo';
+import Territorio from '../Incompetencias/Territorio';
+import Falsificacion from '../Incompetencias/Falsificacion';
+import Conexidad from '../Incompetencias/Conexidad';
+import Turno from '../Incompetencias/Turno'
+import Coactivas from '../Incompetencias/Coactivas';
 
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
-import Coactivas from './Incompetencias/Coactivas';
 
 const { Option } = Select;
 
@@ -57,8 +56,8 @@ const ResolutionForm = () => {
     const renderFormularioEspecifico = () => {
         const formComponentMap = {
             Nulidades: {
-                'probando': FormNulidades,
-                'tipo2': FormPrueba,
+                'probando': '',
+                'tipo2': ''
             },
             Incompetencias: {
                 'homicidio culposo': HomicidioCulposo,
