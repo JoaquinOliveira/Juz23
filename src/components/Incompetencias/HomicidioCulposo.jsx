@@ -97,7 +97,7 @@ const HomicidioCulposo = ({ subTipo }) => {
                     name="causa"
                     rules={[{ required: true, message: 'La causa es obligatoria' }]}
                 >
-                    <Input />
+                    <Input placeholder="Número de causa"/>
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -105,7 +105,7 @@ const HomicidioCulposo = ({ subTipo }) => {
                     name="caratula"
                     rules={[{ required: true, message: 'La carátula es obligatoria' }]}
                 >
-                    <Input />
+                    <Input placeholder="Carátula"/>
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -113,7 +113,7 @@ const HomicidioCulposo = ({ subTipo }) => {
                     name="hechos"
                     rules={[{ required: true, message: 'Los hechos son obligatorios' }]}
                 >
-                    <TextArea rows={3} />
+                    <TextArea placeholder="Ingrese los hechos" rows={3} />
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -121,7 +121,7 @@ const HomicidioCulposo = ({ subTipo }) => {
                     name="fiscal"
                     rules={[{ required: true, message: 'La fiscalía es obligatoria' }]}
                 >
-                    <TextArea rows={3} />
+                    <TextArea placeholder="Ingrese qué dijo el Fiscal" rows={3} />
                 </Form.Item>
 
                 {additionalFields.includes('defensa') && (
@@ -130,7 +130,7 @@ const HomicidioCulposo = ({ subTipo }) => {
                         label="Defensa"
                         name="defensa"
                     >
-                        <TextArea rows={3} />
+                        <TextArea placeholder="Ingrese qué dijo la Defensa" rows={3} />
                     </Form.Item>
                 )}
 
@@ -139,7 +139,7 @@ const HomicidioCulposo = ({ subTipo }) => {
                         label="Querella"
                         name="querella"
                     >
-                        <TextArea rows={1} />
+                        <TextArea placeholder="Ingrese qué dijo la Querella" rows={1} />
                     </Form.Item>
                 )}
                 <Form.Item

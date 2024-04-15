@@ -36,7 +36,7 @@ const Conexidad = ({ subTipo }) => {
 
     const delitos = ['amenazas', 'daños', 'lesiones', 'homicidio'];
     const delitosAjenos = ['homicidio', 'falsificacion', 'amenazas coactivas',]
- 
+
 
     const onFieldsChange = (_, allFields) => {
         const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal', 'delitos', 'delitosAjenos'];
@@ -79,14 +79,13 @@ const Conexidad = ({ subTipo }) => {
 
     };
     const handleDelitosChange2 = (selectedValues) => {
-    
         setSelectedDelitosOtros(selectedValues)
     };
 
-    
+
 
     return (
-        <>
+        <> {'Not working'} {/* 
             <h2 className="form-title hurto-title"> Formulario de {subTipo}</h2>
             <Form
                 className="form-item"
@@ -161,7 +160,7 @@ const Conexidad = ({ subTipo }) => {
                             </Option>
                         ))}
                     </Select>
-                    
+
                 </Form.Item>
 
                 <Form.Item
@@ -182,7 +181,7 @@ const Conexidad = ({ subTipo }) => {
                             </Option>
                         ))}
                     </Select>
-                    
+
                 </Form.Item>
                 {additionalFields.includes('defensa') && (
                     <Form.Item
@@ -244,7 +243,7 @@ const Conexidad = ({ subTipo }) => {
                     onClose={handleClosePreview}
                 />
             </Form>
-        </>
+         */}</>
     );
 };
 
