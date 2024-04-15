@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, message, Input, Select, Space } from 'antd';
-import { setFormValidity, setSubTipo, handleSubmit, generatePreview, handleSubmitTipo } from '../../redux/formSlice';
+import { setFormValidity, setSubTipo, generatePreview, handleSubmitTipo } from '../../redux/formSlice';
 import './styles.css';
 import DocumentPreview from './DocumentPreview';
 
