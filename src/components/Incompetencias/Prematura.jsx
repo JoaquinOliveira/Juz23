@@ -123,12 +123,6 @@ const Prematura = ({ subTipo }) => {
                 >
                     <TextArea placeholder="Ingrese qué dijo el Fiscal" rows={3} />
                 </Form.Item>
-                <Form.Item
-                    label="Destino"
-                    name="destino"
-                >
-                    <Input placeholder="Poner nombre de la cámara donde va" />
-                </Form.Item>
                 {additionalFields.includes('defensa') && (
                     <Form.Item
                         className="form-item"
