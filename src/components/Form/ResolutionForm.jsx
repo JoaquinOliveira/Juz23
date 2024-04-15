@@ -22,8 +22,8 @@ const ResolutionForm = () => {
 
 
     const tiposDeResolucion = {
-        Nulidades: ['probando', 'requerimiento', 'investigacion', 'ha lugar'],
-        Allanamiento: ['drogas', 'armas', 'pornografía', 'prueba'],
+        /* Nulidades: ['probando', 'requerimiento', 'investigacion', 'ha lugar'],
+        Allanamiento: ['drogas', 'armas', 'pornografía', 'prueba'], */
         Incompetencias: [
             'coactivas',
             'falsificacion',
@@ -55,10 +55,10 @@ const ResolutionForm = () => {
 
     const renderFormularioEspecifico = () => {
         const formComponentMap = {
-            Nulidades: {
+          /*   Nulidades: {
                 'probando': '',
                 'tipo2': ''
-            },
+            }, */
             Incompetencias: {
                 'homicidio culposo': HomicidioCulposo,
                 'fraude': Fraude,
