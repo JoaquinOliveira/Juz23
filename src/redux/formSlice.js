@@ -15,7 +15,14 @@ export const handleSubmit = createAsyncThunk(
             dispatch(setLoadingTemplate(true));
             const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
             dispatch(setLoadingTemplate(false));
-            const modifiedDocument = await fillWordTemplate(formValues, templateUrl);
+
+
+            const { ...otherValues } = formValues;
+            const templateValues = {
+                ...otherValues,
+
+            };
+            const modifiedDocument = await fillWordTemplate(templateValues, templateUrl);
             downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
             return 'El formulario se ha enviado correctamente';
         } catch (error) {
