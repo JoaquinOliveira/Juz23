@@ -7,7 +7,7 @@ import { renderAsync } from 'docx-preview';
 
 export const handleSubmit = createAsyncThunk(
     'form/handleSubmit',
-    async (formValues, { dispatch, getState }) => {
+    async (values, { dispatch, getState }) => {
         dispatch(setSubmitting(true));
         try {
             const subTipo = getState().form.subTipo;
@@ -15,21 +15,11 @@ export const handleSubmit = createAsyncThunk(
             dispatch(setLoadingTemplate(true));
             const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
             dispatch(setLoadingTemplate(false));
-
-            // Desestructurar los valores del formulario
-            const { additionalFields, ...otherValues } = formValues;
-
-            // Combinar los valores en un solo objeto
-            const templateValues = {
-                ...otherValues,
-                ...additionalFields.reduce((acc, field) => {
-                    acc[field] = formValues[field] || '';
-                    return acc;
-                }, {}),
-            };
-
-            const modifiedDocument = await fillWordTemplate(templateValues, templateUrl);
+            console.log('Form Values:', values);
+            const modifiedDocument = await fillWordTemplate(values, templateUrl);
+            console.log('Template URL:', templateUrl);
             downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
+            console.log('Modified Document:', modifiedDocument);
             return 'El formulario se ha enviado correctamente';
         } catch (error) {
             console.error('Error:', error);
