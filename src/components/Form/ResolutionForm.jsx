@@ -13,6 +13,7 @@ import Coactivas from '../Incompetencias/Coactivas';
 
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
+import Prematura from '../Incompetencias/Prematura';
 
 const { Option } = Select;
 
@@ -34,6 +35,7 @@ const ResolutionForm = () => {
             'homicidio culposo',
             'robo',
             'hurto',
+            'prematura',
         ],
     };
     const handleTipoChange = (value) => {
@@ -68,7 +70,8 @@ const ResolutionForm = () => {
                 'territorio': Territorio,
                 'conexidad: multiples delitos': 'Proximamente',
                 'turno': Turno,
-                'coactivas': Coactivas
+                'coactivas': Coactivas,
+                'prematura': Prematura,
             },
         };
 

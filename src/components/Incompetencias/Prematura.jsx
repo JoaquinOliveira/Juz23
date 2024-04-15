@@ -7,7 +7,7 @@ import DocumentPreview from './DocumentPreview';
 
 
 
-const Falsificacion = ({ subTipo }) => {
+const Prematura = ({ subTipo }) => {
     const dispatch = useDispatch();
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
@@ -68,7 +68,7 @@ const Falsificacion = ({ subTipo }) => {
 
     return (
         <>
-            <h2 className="form-title hurto-title"> Formulario de Falsificación</h2>
+            <h2 className="form-title hurto-title"> Formulario de Prematura</h2>
             <Form
                 className="form-item"
                 form={form}
@@ -193,4 +193,4 @@ const Falsificacion = ({ subTipo }) => {
     );
 };
 
-export default Falsificacion;
+export default Prematura;
