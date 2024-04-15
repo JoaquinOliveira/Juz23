@@ -7,7 +7,8 @@ import { renderAsync } from 'docx-preview';
 
 export const handleSubmit = createAsyncThunk(
     'form/handleSubmit',
-    async (formValues, { dispatch, getState }) => {
+    async (values, { dispatch, getState }) => {
+        console.log('Form Values del submit = ', values)
         dispatch(setSubmitting(true));
         try {
             const subTipo = getState().form.subTipo;
@@ -15,14 +16,7 @@ export const handleSubmit = createAsyncThunk(
             dispatch(setLoadingTemplate(true));
             const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
             dispatch(setLoadingTemplate(false));
-
-
-            const { ...otherValues } = formValues;
-            const templateValues = {
-                ...otherValues,
-
-            };
-            const modifiedDocument = await fillWordTemplate(templateValues, templateUrl);
+            const modifiedDocument = await fillWordTemplate(values, templateUrl);
             downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
             return 'El formulario se ha enviado correctamente';
         } catch (error) {
@@ -37,6 +31,7 @@ export const handleSubmit = createAsyncThunk(
 export const generatePreview = createAsyncThunk(
     'form/generatePreview',
     async (values, { dispatch, getState }) => {
+        console.log('Form Values del preview = ', values)
         dispatch(setSubmitting(true));
         try {
             const subTipo = getState().form.subTipo;
@@ -64,6 +59,7 @@ export const generatePreview = createAsyncThunk(
 export const handleSubmitTipo = createAsyncThunk(
     'form/handleSubmit',
     async (formValues, { dispatch, getState }) => {
+        console.log('Form Values del tipo = ', formValues)
         dispatch(setSubmitting(true));
         try {
             const subTipo = getState().form.subTipo;
@@ -116,8 +112,7 @@ const formSlice = createSlice({
         setSubTipo: (state, action) => {
             state.subTipo = action.payload;
         },
-        setPreviewUrl: (state, action) => {
-            console.log(action.payload); //
+        setPreviewUrl: (state, action) => {; //
             state.previewBlob = action.payload;
         },
     },

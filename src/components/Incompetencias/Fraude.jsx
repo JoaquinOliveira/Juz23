@@ -39,16 +39,15 @@ const Fraude = ({ subTipo }) => {
         });
         dispatch(setFormValidity(isValid));
     };
-    const submitForm = async (values) => {
+
+    const onSubmit = async () => {
         try {
-          const result = await dispatch(handleSubmit(values));
-          message.success(result.payload);
+            const values = await form.validateFields();
+            const result = await dispatch(handleSubmit(values)).unwrap;
+            message.success(result.payload);
         } catch (error) {
-          message.error(error.message);
+            message.error(error.message);
         }
-      };
-    const onSubmit = async (values) => {
-        await submitForm(values);
     };
 
     const handlePreview = async () => {
