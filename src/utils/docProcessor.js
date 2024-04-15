@@ -31,10 +31,16 @@ export const fillWordTemplate = async (formData, templateUrl) => {
 
         return out;
     } catch (error) {
-        console.error("Error al procesar el documento:", error);
-        throw error; // Relanzar el error para un manejo más arriba en la cadena
+        if (error.code === 'storage/object-not-found') {
+            throw new Error('El archivo de plantilla no existe en Firebase Storage');
+        } else if (error.code === 'storage/unauthorized') {
+            throw new Error('No tienes permiso para acceder al archivo de plantilla');
+        } else {
+            throw error;
+        }
     }
 };
+
 
 export const downloadBlob = (blob, filename) => {
     const link = document.createElement('a');
