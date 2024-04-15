@@ -1,17 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Checkbox, Button, Input, Select, message } from 'antd';
-import { setFormValidity, setSubTipo, setSubmitting, setLoadingTemplate } from '../../redux/formSlice';
+import { Form, Checkbox, Space, Button, Input, Select, message } from 'antd';
+import { setFormValidity, setSubTipo, handleSubmit, generatePreview } from '../../redux/formSlice';
 import './styles.css';
-import obtenerUrlDescarga from '../../firebase/firestore';
-import { fillWordTemplate, downloadBlob } from '../../utils/docProcessor';
+import DocumentPreview from './DocumentPreview'
+
 
 const Conexidad = ({ subTipo }) => {
     const dispatch = useDispatch();
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
     const isLoadingTemplate = useSelector((state) => state.form.isLoadingTemplate);
+
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [previewContent, setPreviewContent] = useState('');
 
     const { TextArea } = Input;
     const { Option } = Select;
@@ -32,10 +35,11 @@ const Conexidad = ({ subTipo }) => {
     const [selectedDelitosOtros, setSelectedDelitosOtros] = useState([])
 
     const delitos = ['amenazas', 'daños', 'lesiones', 'homicidio'];
+    const delitosAjenos = ['homicidio', 'falsificacion', 'amenazas coactivas',]
  
 
     const onFieldsChange = (_, allFields) => {
-        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
+        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal', 'delitos', 'delitosAjenos'];
         const isValid = requiredFields.every((field) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
@@ -43,34 +47,39 @@ const Conexidad = ({ subTipo }) => {
         dispatch(setFormValidity(isValid));
     };
 
-    const handleSubmit = async (values) => {
-        setSubmitting(true);
+    const onSubmit = async (values) => {
         try {
-            const nombreArchivoPlantilla = `${subTipo}.docx`;
-            setLoadingTemplate(true);
-            const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
-            setLoadingTemplate(false);
-
-            // Agregar los delitos seleccionados a los valores del formulario
-            const valoresConDelitos = {
-                ...values,
-                delitos: selectedDelitos,
-                delitosOtros: selectedDelitosOtros
-            };
-
-            const modifiedDocument = await fillWordTemplate(valoresConDelitos, templateUrl);
-            downloadBlob(modifiedDocument, `${subTipo}_modificado.docx`);
-            message.success('El formulario se ha enviado correctamente');
+            const result = await dispatch(handleSubmit(values));
+            message.success(result.payload);
         } catch (error) {
-            console.error('Error:', error);
-            message.error('Ha ocurrido un error al enviar el formulario');
-        } finally {
-            setLoadingTemplate(false);
+            message.error(error.message);
         }
     };
 
+    const handlePreview = async () => {
+        try {
+            const values = await form.validateFields();
+            const fileContent = await dispatch(generatePreview(values)).unwrap();
+            setPreviewContent(fileContent);
+            setIsPreviewOpen(true);
+        } catch (error) {
+            message.error(error.message);
+        }
+    };
+
+
+    const handleClosePreview = () => {
+        setIsPreviewOpen(false);
+        setPreviewContent('');
+    };
+
+
     const handleDelitosChange = (selectedValues) => {
         setSelectedDelitos(selectedValues);
+
+    };
+    const handleDelitosChange2 = (selectedValues) => {
+    
         setSelectedDelitosOtros(selectedValues)
     };
 
@@ -158,17 +167,17 @@ const Conexidad = ({ subTipo }) => {
                 <Form.Item
                     className="form-item"
                     label="Delitos Ajenos"
-                    name="delitos"
+                    name="delitosAjenos"
                 >
                     <Select
                         mode="multiple"
                         placeholder="Seleccione los delitos de la conexidad"
-                        onChange={handleDelitosChange}
+                        onChange={handleDelitosChange2}
                     >
-                        {delitos.map((delito) => (
-                            <Option key={delito} value={delito}>
-                                <Checkbox checked={selectedDelitosOtros.includes(delito)}>
-                                    {delito}
+                        {delitosAjenos.map((delitos) => (
+                            <Option key={delitosAjenos} value={delitos}>
+                                <Checkbox checked={selectedDelitosOtros.includes(delitos)}>
+                                    {delitos}
                                 </Checkbox>
                             </Option>
                         ))}
@@ -207,16 +216,33 @@ const Conexidad = ({ subTipo }) => {
                     </Select>
                 </Form.Item>
                 <Form.Item>
-                    <Button
-                        className="form-button"
-                        type="primary"
-                        htmlType="submit"
-                        disabled={!isFormValid || isSubmitting || isLoadingTemplate}
-                    >
-                        {isSubmitting || isLoadingTemplate ? 'Cargando...' : 'Enviar'}
-                    </Button>
+                    <Space>
+                        <Button
+                            className="form-button"
+                            type="primary"
+                            onClick={handlePreview}
+                            disabled={!isFormValid || isSubmitting || isLoadingTemplate}
+                            size="large"
+                        >
+                            {isSubmitting || isLoadingTemplate ? '...' : 'Preview'}
+                        </Button>
+                        <Button
+                            onClick={onSubmit}
+                            className="form-button"
+                            type="primary"
+                            htmlType="submit"
+                            disabled={!isFormValid || isSubmitting || isLoadingTemplate}
+                            size='large'
+                        >
+                            {isSubmitting || isLoadingTemplate ? '...' : 'Enviar'}
+                        </Button>
+                    </Space>
                 </Form.Item>
-
+                <DocumentPreview
+                    fileContent={previewContent}
+                    isOpen={isPreviewOpen}
+                    onClose={handleClosePreview}
+                />
             </Form>
         </>
     );
