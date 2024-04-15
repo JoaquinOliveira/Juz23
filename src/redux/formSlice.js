@@ -8,7 +8,6 @@ import { renderAsync } from 'docx-preview';
 export const handleSubmit = createAsyncThunk(
     'form/handleSubmit',
     async (values, { dispatch, getState }) => {
-        console.log('Form Values del submit = ', values)
         dispatch(setSubmitting(true));
         try {
             const subTipo = getState().form.subTipo;
@@ -31,7 +30,6 @@ export const handleSubmit = createAsyncThunk(
 export const generatePreview = createAsyncThunk(
     'form/generatePreview',
     async (values, { dispatch, getState }) => {
-        console.log('Form Values del preview = ', values)
         dispatch(setSubmitting(true));
         try {
             const subTipo = getState().form.subTipo;
@@ -59,7 +57,6 @@ export const generatePreview = createAsyncThunk(
 export const handleSubmitTipo = createAsyncThunk(
     'form/handleSubmit',
     async (formValues, { dispatch, getState }) => {
-        console.log('Form Values del tipo = ', formValues)
         dispatch(setSubmitting(true));
         try {
             const subTipo = getState().form.subTipo;
