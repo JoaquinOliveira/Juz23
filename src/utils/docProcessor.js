@@ -5,6 +5,7 @@ import Docxtemplater from 'docxtemplater';
 
 export const fillWordTemplate = async (formData, templateUrl) => {
     try {
+        console.log('Form Data in fillWordTemplate:', formData);
         // Realiza la solicitud para obtener el Blob
         const response = await fetch(templateUrl);
         if (!response.ok) {
