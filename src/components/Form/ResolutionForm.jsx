@@ -66,7 +66,7 @@ const ResolutionForm = () => {
                 'hurto': Hurto,
                 'robo': Robo,
                 'territorio': Territorio,
-                'conexidad: multiples delitos': Conexidad,
+                'conexidad: multiples delitos': 'Proximamente',
                 'turno': Turno,
                 'coactivas': Coactivas
             },

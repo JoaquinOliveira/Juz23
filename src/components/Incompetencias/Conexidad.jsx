@@ -1,4 +1,4 @@
-
+/* 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Checkbox, Space, Button, Input, Select, message } from 'antd';
@@ -85,7 +85,7 @@ const Conexidad = ({ subTipo }) => {
 
 
     return (
-        <> {'Not working'} {/* 
+        <>
             <h2 className="form-title hurto-title"> Formulario de {subTipo}</h2>
             <Form
                 className="form-item"
@@ -243,8 +243,9 @@ const Conexidad = ({ subTipo }) => {
                     onClose={handleClosePreview}
                 />
             </Form>
-         */}</>
+        </>
     );
 };
 
 export default Conexidad;
+ */
