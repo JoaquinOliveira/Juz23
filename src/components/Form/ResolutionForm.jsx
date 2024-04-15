@@ -7,7 +7,7 @@ import Hurto from '../Incompetencias/Hurto';
 import Robo from '../Incompetencias/Robo';
 import Territorio from '../Incompetencias/Territorio';
 import Falsificacion from '../Incompetencias/Falsificacion';
-import Conexidad from '../Incompetencias/Conexidad';
+/* import Conexidad from '../Incompetencias/Conexidad'; */
 import Turno from '../Incompetencias/Turno'
 import Coactivas from '../Incompetencias/Coactivas';
 
