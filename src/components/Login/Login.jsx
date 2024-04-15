@@ -10,8 +10,8 @@ const Login = ({ onLogin }) => {
         setLoading(true);
 
         // Aquí debes reemplazar con el usuario y contraseña válidos
-        const validUsername = 'juzgado23';
-        const validPassword = 'prueba';
+        const validUsername = process.env.REACT_APP_USERNAME;
+        const validPassword = process.env.REACT_APP_PASSWORD;
 
         if (values.username === validUsername && values.password === validPassword) {
             // Inicio de sesión exitoso
