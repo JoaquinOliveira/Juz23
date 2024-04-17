@@ -1,4 +1,3 @@
-/* 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Checkbox, Space, Button, Input, Select, message } from 'antd';
@@ -34,12 +33,12 @@ const Conexidad = ({ subTipo }) => {
     const [selectedDelitos, setSelectedDelitos] = useState([]);
     const [selectedDelitosOtros, setSelectedDelitosOtros] = useState([])
 
-    const delitos = ['amenazas', 'daños', 'lesiones', 'homicidio'];
-    const delitosAjenos = ['homicidio', 'falsificacion', 'amenazas coactivas',]
+    const delitos = [' amenazas', ' daños', ' lesiones', ' homicidio'];
+    const delitosAjenos = [' homicidio', ' falsificacion', ' amenazas coactivas',]
 
 
     const onFieldsChange = (_, allFields) => {
-        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal', 'delitos', 'delitosAjenos'];
+        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal', 'delitos', 'delitosajenos', 'destino', 'causaajena'];
         const isValid = requiredFields.every((field) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
@@ -162,11 +161,26 @@ const Conexidad = ({ subTipo }) => {
                     </Select>
 
                 </Form.Item>
-
+                <Form.Item
+                    className="form-item"
+                    label="Destino"
+                    name="destino"
+                    rules={[{ required: true, message: 'El destino es obligatorio' }]}
+                >
+                    <Input placeholder="Agregue el Juzgado y departamento judicial al que la mandamos"/>
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Causa Ajena"
+                    name="causaajena"
+                    rules={[{ required: true, message: 'La causa del Juzgado de la conexidad es obligatorio' }]}
+                >
+                    <Input placeholder="Agregue el número de causa del Juzgado al cual se conexa"/>
+                </Form.Item>
                 <Form.Item
                     className="form-item"
                     label="Delitos Ajenos"
-                    name="delitosAjenos"
+                    name="delitosajenos"
                 >
                     <Select
                         mode="multiple"
@@ -174,7 +188,7 @@ const Conexidad = ({ subTipo }) => {
                         onChange={handleDelitosChange2}
                     >
                         {delitosAjenos.map((delitos) => (
-                            <Option key={delitosAjenos} value={delitos}>
+                            <Option key={delitos} value={delitos}>
                                 <Checkbox checked={selectedDelitosOtros.includes(delitos)}>
                                     {delitos}
                                 </Checkbox>
@@ -248,4 +262,3 @@ const Conexidad = ({ subTipo }) => {
 };
 
 export default Conexidad;
- */
