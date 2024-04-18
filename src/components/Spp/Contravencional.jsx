@@ -187,6 +187,15 @@ const Contravencional = ({ subTipo }) => {
                 >
                     <Input placeholder="Ingrese las pautas, con la numeración correspondiente" />
                 </Form.Item>
+                
+                <Form.Item
+                    className="form-item"
+                    label="Contravención Imputada"
+                    name="articulo"
+                    rules={[{ required: true, message: 'El artículo contravencional es obligatorios' }]}
+                >
+                    <Input placeholder="Ingrese el número del artículo contravencional que se le imputa" />
+                </Form.Item>
 
                 <Form.Item>
                     <Space>
