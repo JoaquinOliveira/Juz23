@@ -17,7 +17,7 @@ const Contravencional = ({ subTipo }) => {
     const [previewContent, setPreviewContent] = useState('');
 
     const { TextArea } = Input;
-    const { Option } = Select;
+
 
     const [form] = Form.useForm();
 

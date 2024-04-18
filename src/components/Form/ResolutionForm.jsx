@@ -11,7 +11,7 @@ import Conexidad from '../Incompetencias/Conexidad';
 import Turno from '../Incompetencias/Turno'
 import Coactivas from '../Incompetencias/Coactivas';
 import Contravencional from '../Spp/Contravencional'
-import Penal from '../Spp/Penal'
+/* import Penal from '../Spp/Penal' */
 
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
