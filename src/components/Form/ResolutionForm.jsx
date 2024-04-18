@@ -17,6 +17,7 @@ import ExtincionC from '../Spp/ExtincionC';
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
 import Prematura from '../Incompetencias/Prematura';
+import ExtincionPenal from '../Spp/ExtincionPenal';
 
 const { Option } = Select;
 
@@ -42,7 +43,8 @@ const ResolutionForm = () => {
         ],
         Spp: [
             'contravencional',
-            'extincionContr'
+            'extincion contravencional',
+            'extincion penal'
             /* 'penal' */
         ]
     };
@@ -81,9 +83,11 @@ const ResolutionForm = () => {
                 'coactivas': Coactivas,
                 'prematura': Prematura,
             },
+            
             Spp: {
                 'contravencional': Contravencional,
-                'extincionContr': ExtincionC
+                'extincion contravencional': ExtincionC,
+                'extincion penal': ExtincionPenal
              /*    'penal': Penal, */
             }
         };
