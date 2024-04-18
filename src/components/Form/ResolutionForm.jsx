@@ -10,7 +10,8 @@ import Falsificacion from '../Incompetencias/Falsificacion';
 import Conexidad from '../Incompetencias/Conexidad';
 import Turno from '../Incompetencias/Turno'
 import Coactivas from '../Incompetencias/Coactivas';
-import Contravencional from '../Spp/Contravencional'
+import Contravencional from '../Spp/Contravencional';
+import ExtincionC from '../Spp/ExtincionC';
 /* import Penal from '../Spp/Penal' */
 
 import { CSSTransition } from 'react-transition-group';
@@ -41,6 +42,7 @@ const ResolutionForm = () => {
         ],
         Spp: [
             'contravencional',
+            'extincionContr'
             /* 'penal' */
         ]
     };
@@ -81,6 +83,7 @@ const ResolutionForm = () => {
             },
             Spp: {
                 'contravencional': Contravencional,
+                'extincionContr': ExtincionC
              /*    'penal': Penal, */
             }
         };

@@ -40,9 +40,10 @@ const Prematura = ({ subTipo }) => {
         dispatch(setFormValidity(isValid));
     };
 
-    const onSubmit = async (values) => {
+    const onSubmit = async () => {
         try {
-            const result = await dispatch(handleSubmit(values));
+            const values = await form.validateFields();
+            const result = await dispatch(handleSubmit(values)).unwrap();
             message.success(result.payload);
         } catch (error) {
             message.error(error.message);

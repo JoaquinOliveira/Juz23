@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, message, Input, Select, Space } from 'antd';
+import { Form, Button, message, Input, Space } from 'antd';
 import { setFormValidity, setSubTipo, handleSubmit, generatePreview } from '../../redux/formSlice';
-import './styles.css';
-import DocumentPreview from './DocumentPreview';
+import '../Incompetencias/styles.css';
+import DocumentPreview from '../Incompetencias/DocumentPreview';
 
 
 
-const Robo = ({ subTipo }) => {
+const ExtincionC = ({ subTipo }) => {
     const dispatch = useDispatch();
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
@@ -17,22 +17,17 @@ const Robo = ({ subTipo }) => {
     const [previewContent, setPreviewContent] = useState('');
 
     const { TextArea } = Input;
-    const { Option } = Select;
+
 
     const [form] = Form.useForm();
 
-
-    const [additionalFields, setAdditionalFields] = useState([]);
-    const handleAdditionalFieldsChange = (selectedFields) => {
-        setAdditionalFields(selectedFields);
-    };
 
     useEffect(() => {
         dispatch(setSubTipo(subTipo));
     }, [dispatch, subTipo]);
 
     const onFieldsChange = (_, allFields) => {
-        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
+        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'imputado', 'articulo'];
         const isValid = requiredFields.every((field) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
@@ -69,7 +64,7 @@ const Robo = ({ subTipo }) => {
 
     return (
         <>
-            <h2 className="form-title hurto-title"> Formulario de Robo</h2>
+            <h2 className="form-title hurto-title"> Formulario de Extinción C.C.</h2>
             <Form
                 className="form-item"
                 form={form}
@@ -98,7 +93,7 @@ const Robo = ({ subTipo }) => {
                     name="causa"
                     rules={[{ required: true, message: 'La causa es obligatoria' }]}
                 >
-                    <Input placeholder="Número de causa"/>
+                    <Input placeholder="Número de causa" />
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -106,7 +101,7 @@ const Robo = ({ subTipo }) => {
                     name="caratula"
                     rules={[{ required: true, message: 'La carátula es obligatoria' }]}
                 >
-                    <Input placeholder="Carátula"/>
+                    <Input placeholder="Carátula" />
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -118,44 +113,24 @@ const Robo = ({ subTipo }) => {
                 </Form.Item>
                 <Form.Item
                     className="form-item"
-                    label="Fiscalía"
-                    name="fiscal"
-                    rules={[{ required: true, message: 'La fiscalía es obligatoria' }]}
+                    label="Parte imputada"
+                    name="imputado"
+                    rules={[{ required: true, message: 'La parte imputada es obligatoria' }]}
                 >
-                    <TextArea placeholder="Ingrese qué dijo el Fiscal" rows={3} />
+                    <Input placeholder="Ingrese el nombre completo del imputado" />
                 </Form.Item>
 
-                {additionalFields.includes('defensa') && (
-                    <Form.Item
-                        className="form-item"
-                        label="Defensa"
-                        name="defensa"
-                    >
-                        <TextArea placeholder="Ingrese qué dijo la Defensa" rows={3} />
-                    </Form.Item>
-                )}
-
-                {additionalFields.includes('querella') && (
-                    <Form.Item
-                        label="Querella"
-                        name="querella"
-                    >
-                        <TextArea placeholder="Ingrese qué dijo la Querella" rows={1} />
-                    </Form.Item>
-                )}
                 <Form.Item
-                    label="Campos adicionales"
-                    name="additionalFields"
+                    className="form-item"
+                    label="Contravención Imputada"
+                    name="articulo"
+                    rules={[{ required: true, message: 'Los datos de la parte imputada son obligatorios' }]}
                 >
-                    <Select
-                        mode="multiple"
-                        placeholder="Agrega campos si lo necesitás"
-                        onChange={handleAdditionalFieldsChange}
-                    >
-                        <Option value="defensa">Defensa</Option>
-                        <Option value="querella">Querella</Option>
-                    </Select>
+                    <Input placeholder="Ingrese el número del artículo contravencional que se le imputa" />
                 </Form.Item>
+
+
+
                 <Form.Item>
                     <Space>
                         <Button
@@ -189,4 +164,4 @@ const Robo = ({ subTipo }) => {
     );
 };
 
-export default Robo;
+export default ExtincionC;
