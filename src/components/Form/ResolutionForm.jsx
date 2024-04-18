@@ -10,6 +10,8 @@ import Falsificacion from '../Incompetencias/Falsificacion';
 import Conexidad from '../Incompetencias/Conexidad';
 import Turno from '../Incompetencias/Turno'
 import Coactivas from '../Incompetencias/Coactivas';
+import Contravencional from '../Spp/Contravencional'
+import Penal from '../Spp/Penal'
 
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
@@ -37,6 +39,10 @@ const ResolutionForm = () => {
             'hurto',
             'prematura',
         ],
+        Spp: [
+            'contravencional',
+            /* 'penal' */
+        ]
     };
     const handleTipoChange = (value) => {
         setTipoResolucion(value);
@@ -73,6 +79,10 @@ const ResolutionForm = () => {
                 'coactivas': Coactivas,
                 'prematura': Prematura,
             },
+            Spp: {
+                'contravencional': Contravencional,
+             /*    'penal': Penal, */
+            }
         };
 
         const FormComponent = formComponentMap[tipoResolucion]?.[subTipoResolucion];
