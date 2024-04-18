@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, message, Input, Select, Space } from 'antd';
+import { Form, Button, message, Input, Space } from 'antd';
 import { setFormValidity, setSubTipo, handleSubmit, generatePreview } from '../../redux/formSlice';
 import '../Incompetencias/styles.css';
 import DocumentPreview from '../Incompetencias/DocumentPreview';
