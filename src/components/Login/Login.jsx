@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css';
-import bcrypt from 'bcryptjs';
+
 
 
 const Login = ({ onLogin }) => {
@@ -14,19 +14,8 @@ const Login = ({ onLogin }) => {
         const validUsername = process.env.REACT_APP_USERNAME;
         const validPassword = process.env.REACT_APP_PASSWORD;
 
-        console.log('Usuario ingresado:', values.username);
-        console.log('Usuario válido:', validUsername);
-        console.log('Contraseña ingresada:', values.password);
-        console.log('Contraseña válida:', validPassword);
-
-        console.log('Tipo de dato de la contraseña ingresada:', typeof values.password);
-        console.log('Tipo de dato de la contraseña válida:', typeof validPassword);
         try {
-            const passwordMatch = bcrypt.compare(values.password, validPassword);
-
-            console.log('Resultado de la comparación de contraseñas:', passwordMatch);
-
-            if (values.username === validUsername && passwordMatch) {
+            if (values.username === validUsername && validPassword) {
                 message.success('Inicio de sesión exitoso');
                 onLogin();
             } else {

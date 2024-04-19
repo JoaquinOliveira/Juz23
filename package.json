@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.12.8",
     "axios": "^1.6.5",
-    "bcryptjs": "^2.4.3",
+    "crypto-browserify": "^3.12.0",
     "docx-preview": "^0.3.0",
     "docxtemplater": "^3.43.0",
     "firebase": "^10.7.1",
