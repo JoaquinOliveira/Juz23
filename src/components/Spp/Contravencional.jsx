@@ -187,7 +187,7 @@ const Contravencional = ({ subTipo }) => {
                 >
                     <Input placeholder="Ingrese las pautas, con la numeración correspondiente" />
                 </Form.Item>
-                
+
                 <Form.Item
                     className="form-item"
                     label="Contravención Imputada"
@@ -200,7 +200,7 @@ const Contravencional = ({ subTipo }) => {
                 <Form.Item>
                     <Space>
                         <Button
-                            className="form-button"
+                            className="form-button preview-button"
                             type="primary"
                             onClick={handlePreview}
                             disabled={!isFormValid || isSubmitting || isLoadingTemplate}

@@ -98,7 +98,7 @@ const Fraude = ({ subTipo }) => {
                     name="causa"
                     rules={[{ required: true, message: 'La causa es obligatoria' }]}
                 >
-                    <Input placeholder="Número de causa"/>
+                    <Input placeholder="Número de causa" />
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -106,7 +106,7 @@ const Fraude = ({ subTipo }) => {
                     name="caratula"
                     rules={[{ required: true, message: 'La carátula es obligatoria' }]}
                 >
-                    <Input placeholder="Carátula"/>
+                    <Input placeholder="Carátula" />
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -159,7 +159,7 @@ const Fraude = ({ subTipo }) => {
                 <Form.Item>
                     <Space>
                         <Button
-                            className="form-button"
+                            className="form-button preview-button"
                             type="primary"
                             onClick={handlePreview}
                             disabled={!isFormValid || isSubmitting || isLoadingTemplate}

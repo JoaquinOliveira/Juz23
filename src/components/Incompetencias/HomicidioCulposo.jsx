@@ -159,7 +159,7 @@ const HomicidioCulposo = ({ subTipo }) => {
                 <Form.Item>
                     <Space>
                         <Button
-                            className="form-button"
+                            className="form-button preview-button"
                             type="primary"
                             onClick={handlePreview}
                             disabled={!isFormValid || isSubmitting || isLoadingTemplate}
