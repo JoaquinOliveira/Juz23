@@ -13,9 +13,23 @@
   text-align: center;
   margin-bottom: 20px;
 }
+
 .login-container button {
-margin-left: 100px
+  margin-left: 100px;
 }
 
+/* Estilos para el modo oscuro */
+body.dark-mode .login-container {
+  border: 1px solid #fff;
+  background-color: #1f1f1f;
+  color: #fff;
+}
 
+body.dark-mode .login-container h2 {
+  color: #fff;
+}
 
+body.dark-mode .login-container button {
+  background-color: #1890ff;
+  color: #fff;
+}
