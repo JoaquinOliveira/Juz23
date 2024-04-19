@@ -220,6 +220,12 @@ body.light-mode .ant-select-selection-item-remove:hover {
   color: rgba(255, 255, 255, 0.5);
   cursor: not-allowed;
 }
+.form-button.preview-button:disabled{
+  background-color: #595959 !important;
+  border-color: #595959 !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  cursor: not-allowed !important;
+}
 
 .form-button.preview-button {
   background-color: white !important;
