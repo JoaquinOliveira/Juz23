@@ -5,6 +5,8 @@ import Login from './components/Login/Login';
 import './App.css';
 import logo from './utils/logo/logo.png';
 import { Switch } from 'antd';
+import { FaSun, FaMoon } from 'react-icons/fa';
+
 
 
 
@@ -16,7 +18,7 @@ const App = () => {
   const handleThemeChange = (checked) => {
     setIsDarkMode(checked);
     document.body.classList.toggle('light-mode', !checked);
-};
+  };
   useEffect(() => {
     document.title = "Juzgado PCyF Nº 23 - Creador de resoluciones";
   }, []);
@@ -34,13 +36,13 @@ const App = () => {
             <h1 className="app-header">Juzgado PCyF Nº 23</h1>
           </div>
           <div className="switch-container">
-                <Switch
-                    checked={isDarkMode}
-                    onChange={handleThemeChange}
-                    unCheckedChildren="Dark"
-                    CheckedChildren="Light"
-                />
-            </div>
+            <Switch
+              checked={isDarkMode}
+              onChange={handleThemeChange}
+              checkedChildren={<FaSun />}
+              unCheckedChildren={<FaMoon />}
+            />
+          </div>
           <h2 className="description">Elija el tipo de resolución</h2>
           <ResolutionForm />
         </>

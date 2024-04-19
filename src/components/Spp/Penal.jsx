@@ -1,4 +1,4 @@
-/* import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, message, Input, Select, Space } from 'antd';
 import { setFormValidity, setSubTipo, handleSubmit, generatePreview } from '../../redux/formSlice';
@@ -31,7 +31,7 @@ const Penal = ({ subTipo }) => {
     }, [dispatch, subTipo]);
 
     const onFieldsChange = (_, allFields) => {
-        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
+        const requiredFields = ['fecha', 'hora', 'causa', 'caratula', 'hechos', 'fiscal', 'datos', 'plazo', 'pautas', 'reparacion', 'actuario', 'delito', 'defensa', 'imputado'];
         const isValid = requiredFields.every((field) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
@@ -65,6 +65,7 @@ const Penal = ({ subTipo }) => {
         setPreviewContent('');
     };
 
+   
     return (
         <>
             <h2 className="form-title hurto-title"> Formulario de Spp Penal</h2>
@@ -92,11 +93,25 @@ const Penal = ({ subTipo }) => {
                 </Form.Item>
                 <Form.Item
                     className="form-item"
+                    label="Hora"
+                    name="hora"
+                    rules={[
+                        { required: true, message: 'La hora es obligatoria' },
+                        {
+                            pattern: /^([01]?[0-9]|2[0-3]):[0-5][0-9]\shoras$/,
+                            message: 'Ingrese una hora válida en formato "XX:XX horas"',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Ejemplo: 10:15 horas" />
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
                     label="Causa"
                     name="causa"
                     rules={[{ required: true, message: 'La causa es obligatoria' }]}
                 >
-                    <Input placeholder="Número de causa"/>
+                    <Input placeholder="Número de causa" />
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -104,7 +119,70 @@ const Penal = ({ subTipo }) => {
                     name="caratula"
                     rules={[{ required: true, message: 'La carátula es obligatoria' }]}
                 >
-                    <Input placeholder="Carátula"/>
+                    <Input placeholder="Carátula" />
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Imputado"
+                    name="imputado"
+                    rules={[{ required: true, message: 'El imputado es obligatorio' }]}
+                >
+                    <Input placeholder="Ingrese el nombre completo del imputad" />
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Datos de la parte imputada"
+                    name="datos"
+                    rules={[{ required: true, message: 'Los datos de la parte imputada son obligatorios' }]}
+                >
+                    <TextArea rows={3} placeholder="Ingrese los datos de la parte imputada (DNI, fecha de nac, defensa, etc)" />
+                </Form.Item>
+
+                <Form.Item
+                    className="form-item"
+                    label="Tiempo de SPP"
+                    name="plazo"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'El plazo de la SPP es obligatorio',
+                        },
+                    ]}
+                >
+                    <Select placeholder="Seleccione el plazo de SPP">
+                        <Select.Option value="un (1) año">1 año</Select.Option>
+                        <Select.Option value="dos (2) años">2 años</Select.Option>
+                        <Select.Option value="tres (3) años">3 años</Select.Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Pautas de SPP"
+                    name="pautas"
+                    rules={[{ required: true, message: 'Las Pautas son obligatorias' }]}
+                >
+                    <Input placeholder="Ingrese las pautas, con la numeración correspondiente" />
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Reparación"
+                    name="reparacion"
+                    rules={[{ required: true, message: 'La reparación es obligatoria' }]}
+                >
+                    <Input placeholder="Ingrese la reparación del daño" />
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Actuario"
+                    name="actuario"
+                    rules={[{ required: true, message: 'El actuario es obligatorio' }]}
+                >
+                    <Select placeholder="Seleccione un actuario">
+                        <Select.Option value="Javier Lombardo, Secretario">Javier Lombardo</Select.Option>
+                        <Select.Option value="Joaquin S. Oliveira, Secretario">Joaquin S. Oliveira</Select.Option>
+                        <Select.Option value="Florencia Marconi, Prosecretaria Coadyuvante">Florencia Marconi</Select.Option>
+                        <Select.Option value="Carolina Fiori, Prosecretaria Coadyuvante">Carolina Fiori</Select.Option>
+                    </Select>
                 </Form.Item>
                 <Form.Item
                     className="form-item"
@@ -112,24 +190,40 @@ const Penal = ({ subTipo }) => {
                     name="hechos"
                     rules={[{ required: true, message: 'Los hechos son obligatorios' }]}
                 >
-                    <TextArea placeholder="Ingrese los hechos" rows={3} />
+                    <TextArea placeholder="Ingrese los hechos" rows={1} />
                 </Form.Item>
                 <Form.Item
                     className="form-item"
-                    label="Fiscalía"
+                    label="Delito"
+                    name="delito"
+                    rules={[{ required: true, message: 'El delito es obligatorio' }]}
+                >
+                    <Input placeholder="Ingrese el delito que se le imputa" />
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Fiscal"
                     name="fiscal"
                     rules={[{ required: true, message: 'La fiscalía es obligatoria' }]}
                 >
-                    <TextArea placeholder="Ingrese qué dijo el Fiscal" rows={3} />
+                    <Input placeholder="Ingrese el Fiscal presente y la Fiscalía. Ej: José Silvie, Fiscalía PCyF Nº 10" />
+                </Form.Item>
+                <Form.Item
+                    className="form-item"
+                    label="Defensa"
+                    name="defensa"
+                    rules={[{ required: true, message: 'La defensa es obligatoria' }]}
+                >
+                    <Input placeholder="Ingrese el defensor presente y la defensoría. Ej: Andrea Piesco, Defensoría PCyF Nº " />
                 </Form.Item>
 
-                {additionalFields.includes('defensa') && (
+
+                {additionalFields.includes('denunciante') && (
                     <Form.Item
-                        className="form-item"
-                        label="Defensa"
-                        name="defensa"
+                        label="Parte damnificada"
+                        name="denunciante"
                     >
-                        <TextArea placeholder="Ingrese qué dijo la Defensa" rows={3} />
+                        <Input placeholder="Ingrese el nombre de la parte damnificada, si corresponde" />
                     </Form.Item>
                 )}
 
@@ -141,6 +235,7 @@ const Penal = ({ subTipo }) => {
                         <TextArea placeholder="Ingrese qué dijo la Querella" rows={1} />
                     </Form.Item>
                 )}
+
                 <Form.Item
                     label="Campos adicionales"
                     name="additionalFields"
@@ -150,7 +245,7 @@ const Penal = ({ subTipo }) => {
                         placeholder="Agrega campos si lo necesitás"
                         onChange={handleAdditionalFieldsChange}
                     >
-                        <Option value="defensa">Defensa</Option>
+                        <Option value="denunciante">Parte damnificada</Option>
                         <Option value="querella">Querella</Option>
                     </Select>
                 </Form.Item>
@@ -187,4 +282,4 @@ const Penal = ({ subTipo }) => {
     );
 };
 
-export default Penal; */
+export default Penal;

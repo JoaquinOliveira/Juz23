@@ -138,30 +138,6 @@ body.light-mode .form-title {
   color: var(--primary-color);
 }
 
-.form-button {
-  margin-left: 39%;
-  width: 20%;
-  height: 40px;
-  border-radius: 4px;
-  background-color: var(--button-background-color);
-  border-color: var(--button-background-color);
-  color: var(--button-text-color);
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.form-button:hover {
-  background-color: #40a9ff;
-  border-color: #40a9ff;
-}
-
-.form-button:disabled {
-  background-color: #595959;
-  border-color: #595959;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: not-allowed;
-}
 
 .select-container {
   display: flex;
@@ -218,4 +194,42 @@ body.light-mode .ant-select-selection-item-remove:hover {
 
 .ant-form-item-label > label {
   color: #333; /* Mejorar el contraste de las etiquetas con el fondo */
+}
+
+.form-button {
+  margin-left: 39%;
+  width: 20%;
+  height: 40px;
+  border-radius: 4px;
+  background-color: var(--button-background-color);
+  border-color: var(--button-background-color);
+  color: var(--button-text-color);
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.form-button:disabled {
+  background-color: #595959;
+  border-color: #595959;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+.form-button.preview-button {
+  background-color: white !important;
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.form-button.preview-button:hover,
+.form-button.preview-button:focus {
+  background-color: #f0f5ff !important;
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }

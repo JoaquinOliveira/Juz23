@@ -12,7 +12,7 @@ import Turno from '../Incompetencias/Turno'
 import Coactivas from '../Incompetencias/Coactivas';
 import Contravencional from '../Spp/Contravencional';
 import ExtincionC from '../Spp/ExtincionC';
-/* import Penal from '../Spp/Penal' */
+import Penal from '../Spp/Penal'
 
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
@@ -43,9 +43,11 @@ const ResolutionForm = () => {
         ],
         Spp: [
             'contravencional',
+            'penal'
+        ],
+        Extinciones: [
             'extincion contravencional',
-            'extincion penal'
-            /* 'penal' */
+            'extincion penal',
         ]
     };
     const handleTipoChange = (value) => {
@@ -83,12 +85,14 @@ const ResolutionForm = () => {
                 'coactivas': Coactivas,
                 'prematura': Prematura,
             },
-            
+
             Spp: {
+                'penal': Penal,
                 'contravencional': Contravencional,
+            },
+            Extinciones: {
+                'extincion penal': ExtincionPenal,
                 'extincion contravencional': ExtincionC,
-                'extincion penal': ExtincionPenal
-             /*    'penal': Penal, */
             }
         };
 
