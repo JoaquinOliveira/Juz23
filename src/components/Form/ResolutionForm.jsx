@@ -53,10 +53,12 @@ const ResolutionForm = () => {
     const handleTipoChange = (value) => {
         setTipoResolucion(value);
         setSubTipoResolucion('');
+     
     };
 
     const handleSubTipoChange = (value) => {
         setSubTipoResolucion(value);
+     
     };
 
     useEffect(() => {
@@ -69,10 +71,10 @@ const ResolutionForm = () => {
 
     const renderFormularioEspecifico = () => {
         const formComponentMap = {
-          /*   Nulidades: {
-                'probando': '',
-                'tipo2': ''
-            }, */
+            /*   Nulidades: {
+                  'probando': '',
+                  'tipo2': ''
+              }, */
             Incompetencias: {
                 'homicidio culposo': HomicidioCulposo,
                 'fraude': Fraude,
@@ -98,22 +100,24 @@ const ResolutionForm = () => {
 
         const FormComponent = formComponentMap[tipoResolucion]?.[subTipoResolucion];
 
-        return FormComponent ? (
-            <FormComponent subTipo={subTipoResolucion} />
-        ) : (
-            <p>
-                {tipoResolucion
-                    ? `Subtipo de ${tipoResolucion} no reconocido.`
-                    : 'Tipo de resolución no reconocido.'}
-            </p>
-        );
-    };
-
+        
+            return FormComponent ? (
+                <FormComponent subTipo={subTipoResolucion} />
+            ) : (
+                subTipoResolucion && (
+                    <p>
+                        {tipoResolucion
+                            ? `Subtipo de ${tipoResolucion} no reconocido.`
+                            : 'Tipo de resolución no reconocido.'}
+                    </p>
+                )
+            );
+        };
     return (
         <>
             <div className="select-container">
                 <Select
-                    className= "prueba"
+                    className="prueba"
                     value={tipoResolucion}
                     onChange={handleTipoChange}
                     placeholder="Seleccione un tipo de resolución"
@@ -139,10 +143,15 @@ const ResolutionForm = () => {
                         ))}
                 </Select>
             </div>
-
-            <CSSTransition in={!!subTipoResolucion} timeout={300} classNames="form" unmountOnExit>
+            {subTipoResolucion && (
+            <CSSTransition
+                unmountOnExit
+                in={!!subTipoResolucion}
+                timeout={200}
+                classNames="form"
+            >
                 <div className="form-container">{renderFormularioEspecifico()}</div>
-            </CSSTransition>
+            </CSSTransition>)}
         </>
     );
 };
