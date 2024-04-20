@@ -28,6 +28,7 @@ const Coactivas = ({ subTipo }) => {
         dispatch(setFormValidity(isValid));
     };
 
+
     return (
         <BaseForm
             subTipo={subTipo}

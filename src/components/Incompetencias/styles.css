@@ -52,9 +52,7 @@ body {
   margin-right: 200px; /* Ajusta este valor según tus necesidades */
 }
 
-/* ... (mantener el contenido existente) */
 
-/* Media queries para diseño responsive */
 @media screen and (max-width: 768px) {
   .ant-layout-content {
     padding: 16px;
