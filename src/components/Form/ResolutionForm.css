@@ -239,3 +239,58 @@ body.light-mode .ant-select-selection-item-remove:hover {
   color: var(--primary-color) ;
   border-color: var(--primary-color);
 }
+
+
+@media screen and (max-width: 768px) {
+  .form-container {
+    max-width: 600px;
+    padding: 30px;
+  }
+
+  .form-title {
+    font-size: 20px;
+  }
+
+  .select-container .ant-select {
+    width: 25%;
+  }
+
+
+  .form-button {
+
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .form-button.form-button.preview-button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+
+
+@media screen and (max-width: 480px) {
+  .form-container {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .form-title {
+    font-size: 18px;
+  }
+
+  .select-container .ant-select {
+    width: 100%;
+    margin: 8px 0;
+  }
+
+  .form-button {
+    font-size: 14px;
+    height: 36px;
+  }
+  .form-button.form-button.preview-button {
+    font-size: 14px;
+    height: 36px;
+  }
+}

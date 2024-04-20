@@ -33,3 +33,33 @@ body.dark-mode .login-container button {
   background-color: #1890ff;
   color: #fff;
 }
+
+/* Media queries para diseño responsive */
+@media screen and (max-width: 768px) {
+  .login-container {
+    max-width: 250px;
+    margin-top: 80px;
+    padding: 15px;
+  }
+
+  .login-container button {
+    margin-left: 75px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .login-container {
+    max-width: 200px;
+    margin-top: 60px;
+    padding: 10px;
+  }
+
+  .login-container h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .login-container button {
+    margin-left: 50px;
+  }
+}
