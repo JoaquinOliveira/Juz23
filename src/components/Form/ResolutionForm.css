@@ -234,9 +234,8 @@ body.light-mode .ant-select-selection-item-remove:hover {
   border-color: var(--primary-color) !important;
 }
 
-.form-button.preview-button:hover,
-.form-button.preview-button:focus {
-  background-color: #f0f5ff !important;
-  color: var(--primary-color) !important;
-  border-color: var(--primary-color) !important;
+.form-button.preview-button:hover{
+  background-color: #f0f5ff ;
+  color: var(--primary-color) ;
+  border-color: var(--primary-color);
 }

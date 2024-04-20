@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from 'react';
+// ResolutionForm.jsx
+import React, { useState, useMemo } from 'react';
 import './ResolutionForm.css';
-
-import HomicidioCulposo from '../Incompetencias/HomicidioCulposo';
-import Fraude from '../Incompetencias/Fraude';
-import Hurto from '../Incompetencias/Hurto';
-import Robo from '../Incompetencias/Robo';
-import Territorio from '../Incompetencias/Territorio';
-import Falsificacion from '../Incompetencias/Falsificacion';
-import Conexidad from '../Incompetencias/Conexidad';
-import Turno from '../Incompetencias/Turno'
-import Coactivas from '../Incompetencias/Coactivas';
-import Contravencional from '../Spp/Contravencional';
-import ExtincionC from '../Spp/ExtincionC';
-import Penal from '../Spp/Penal'
-
 import { CSSTransition } from 'react-transition-group';
 import { Select } from 'antd';
-import Prematura from '../Incompetencias/Prematura';
-import ExtincionPenal from '../Spp/ExtincionPenal';
+import { formComponentMap, resolutionTypes } from './formConfig';
+import useBodyClassName from './useBodyClassName';
 
 const { Option } = Select;
 
@@ -25,94 +12,34 @@ const ResolutionForm = () => {
     const [tipoResolucion, setTipoResolucion] = useState('');
     const [subTipoResolucion, setSubTipoResolucion] = useState('');
 
+    useBodyClassName('light-mode');
 
-    const tiposDeResolucion = {
-        /* Nulidades: ['probando', 'requerimiento', 'investigacion', 'ha lugar'],
-        Allanamiento: ['drogas', 'armas', 'pornografía', 'prueba'], */
-        Incompetencias: [
-            'coactivas',
-            'falsificacion',
-            'fraude',
-            'territorio',
-            'conexidad',
-            'turno',
-            'homicidio culposo',
-            'robo',
-            'hurto',
-            'prematura',
-        ],
-        Spp: [
-            'contravencional',
-            'penal'
-        ],
-        Extinciones: [
-            'extincion contravencional',
-            'extincion penal',
-        ]
-    };
+    const resolutionTypesArray = useMemo(() => Object.keys(resolutionTypes), []);
+    const subTypesArray = useMemo(() => resolutionTypes[tipoResolucion] || [], [tipoResolucion]);
+
     const handleTipoChange = (value) => {
         setTipoResolucion(value);
         setSubTipoResolucion('');
-     
     };
 
     const handleSubTipoChange = (value) => {
         setSubTipoResolucion(value);
-     
     };
 
-    useEffect(() => {
-        document.body.classList.add('light-mode');
-        return () => {
-            document.body.classList.remove('light-mode');
-        };
-    }, []);
-
-
     const renderFormularioEspecifico = () => {
-        const formComponentMap = {
-            /*   Nulidades: {
-                  'probando': '',
-                  'tipo2': ''
-              }, */
-            Incompetencias: {
-                'homicidio culposo': HomicidioCulposo,
-                'fraude': Fraude,
-                'falsificacion': Falsificacion,
-                'hurto': Hurto,
-                'robo': Robo,
-                'territorio': Territorio,
-                'conexidad': Conexidad,
-                'turno': Turno,
-                'coactivas': Coactivas,
-                'prematura': Prematura,
-            },
-
-            Spp: {
-                'penal': Penal,
-                'contravencional': Contravencional,
-            },
-            Extinciones: {
-                'extincion penal': ExtincionPenal,
-                'extincion contravencional': ExtincionC,
-            }
-        };
-
         const FormComponent = formComponentMap[tipoResolucion]?.[subTipoResolucion];
 
-        
-            return FormComponent ? (
-                <FormComponent subTipo={subTipoResolucion} />
-            ) : (
-                subTipoResolucion && (
-                    <p>
-                        {tipoResolucion
-                            ? `Subtipo de ${tipoResolucion} no reconocido.`
-                            : 'Tipo de resolución no reconocido.'}
-                    </p>
-                )
-            );
-        };
+        return FormComponent ? (
+            <FormComponent subTipo={subTipoResolucion} />
+        ) : (
+            <p>
+                {tipoResolucion
+                    ? `Subtipo de ${tipoResolucion} no reconocido.`
+                    : 'Tipo de resolución no reconocido.'}
+            </p>
+        );
+    };
+
     return (
         <>
             <div className="select-container">
@@ -122,36 +49,36 @@ const ResolutionForm = () => {
                     onChange={handleTipoChange}
                     placeholder="Seleccione un tipo de resolución"
                 >
-                    {Object.keys(tiposDeResolucion).sort().map((tipo) => (
+                    {resolutionTypesArray.map((tipo) => (
                         <Option key={tipo} value={tipo}>
                             {tipo}
                         </Option>
                     ))}
                 </Select>
                 <Select
-                    className='prueba'
+                    className="prueba"
                     value={subTipoResolucion}
                     onChange={handleSubTipoChange}
                     placeholder="Seleccione un subtipo"
                     disabled={!tipoResolucion}
                 >
-                    {tipoResolucion &&
-                        tiposDeResolucion[tipoResolucion].sort().map((subtipo) => (
-                            <Option key={subtipo} value={subtipo}>
-                                {subtipo}
-                            </Option>
-                        ))}
+                    {subTypesArray.map((subtipo) => (
+                        <Option key={subtipo} value={subtipo}>
+                            {subtipo}
+                        </Option>
+                    ))}
                 </Select>
             </div>
             {subTipoResolucion && (
-            <CSSTransition
-                unmountOnExit
-                in={!!subTipoResolucion}
-                timeout={200}
-                classNames="form"
-            >
-                <div className="form-container">{renderFormularioEspecifico()}</div>
-            </CSSTransition>)}
+                <CSSTransition
+                    unmountOnExit
+                    in={!!subTipoResolucion}
+                    timeout={200}
+                    classNames="form"
+                >
+                    <div className="form-container">{renderFormularioEspecifico()}</div>
+                </CSSTransition>
+            )}
         </>
     );
 };
