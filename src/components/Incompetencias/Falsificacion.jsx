@@ -6,7 +6,7 @@ import FechaField from '../Form/Modulos-Reutilizables/FechaField';
 import CausaField from '../Form/Modulos-Reutilizables/CausaField';
 import CaratulaField from '../Form/Modulos-Reutilizables/CaratulaField';
 import HechosField from '../Form/Modulos-Reutilizables/HechosField';
-import FiscalField from '../Form/Modulos-Reutilizables/FiscalField';
+import FiscaliaField from '../Form/Modulos-Reutilizables/FiscaliaField';
 import DestinoField from '../Form/Modulos-Reutilizables/DestinoField';
 import QuerellaDefensaField from '../Form/Modulos-Reutilizables/QuerellaDefensaField';
 
@@ -42,7 +42,7 @@ const Falsificacion = ({ subTipo }) => {
             <CausaField />
             <CaratulaField />
             <HechosField rows={3} />
-            <FiscalField rows={3} />
+            <FiscaliaField rows={3} />
             <DestinoField />
             <QuerellaDefensaField />
         </BaseForm>
