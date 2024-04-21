@@ -12,6 +12,7 @@ import ExtincionC from '../Spp/ExtincionC';
 import Penal from '../Spp/Penal';
 import Prematura from '../Incompetencias/Prematura';
 import ExtincionPenal from '../Spp/ExtincionPenal';
+import Oficios from '../Oficios/Oficios';
 
 export const formComponentMap = {
     Incompetencias: {
@@ -34,6 +35,9 @@ export const formComponentMap = {
         'extincion penal': ExtincionPenal,
         'extincion contravencional': ExtincionC,
     },
+    Oficios: {
+        'oficios': Oficios
+    }
 };
 
 export const resolutionTypes = {
@@ -51,4 +55,5 @@ export const resolutionTypes = {
     ],
     Spp: ['contravencional', 'penal'],
     Extinciones: ['extincion contravencional', 'extincion penal'],
+    Oficios: ['oficios']
 };

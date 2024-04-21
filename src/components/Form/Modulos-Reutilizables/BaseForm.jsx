@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Space, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { handleSubmit, generatePreview } from '../../../redux/formSlice';
+import { handleSubmit, generatePreview, handleSubmitOficios } from '../../../redux/formSlice';
 import DocumentPreview from '../../Incompetencias/DocumentPreview';
 
 const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadingTemplate, formTitle, children }) => {
@@ -15,12 +15,9 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
     
     useEffect(() => {
         const loadFormData = () => {
-            const savedData = localStorage.getItem(`formData_${subTipo}`);
-            console.log('Saved Data:', savedData);
-            
+            const savedData = localStorage.getItem(`formData_${subTipo}`);    
             if (savedData) {
                 const parsedData = JSON.parse(savedData);
-                console.log('Parsed Data:', parsedData);
                 
                 const formValues = parsedData.reduce((acc, field) => {
                     if (field.name && field.name.length > 0) {
@@ -28,8 +25,6 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
                     }
                     return acc;
                 }, {});
-                
-                console.log('Form Values:', formValues);
                 form.setFieldsValue(formValues);
             }
         };
@@ -59,6 +54,7 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
     };
 
     const onSubmit = async () => {
+        console.log('uso? = onsubmit')
         try {
             const values = await form.validateFields();
             const result = await dispatch(handleSubmit(values)).unwrap();
@@ -68,6 +64,19 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
             message.error(error.message);
         }
     };
+
+    const onSubmitOficios = async () => {
+        console.log('uso? = onsubmitOficios')
+        try {
+            const values = await form.validateFields();
+            const result = await dispatch(handleSubmitOficios(values)).unwrap();
+            localStorage.removeItem(`formData_${subTipo}`);
+            message.success(result.payload);
+        } catch (error) {
+            message.error(error.message);
+        }
+    };
+
 
     const handlePreview = async () => {
         try {
@@ -85,13 +94,22 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
         setPreviewContent('');
     };
 
+    const getOnSubmitFunction = () => {
+        if (subTipo === 'oficios') {
+            return onSubmitOficios;
+        }
+        return onSubmit;
+    };
+    
+    const onSubmitFunction = getOnSubmitFunction();
+
     return (
         <>
             <h2 className="form-title hurto-title">{formTitle}</h2>
             <Form
                 className="form-item"
                 form={form}
-                onFinish={onSubmit}
+                onFinish={onSubmitFunction}
                 onFieldsChange={handleFieldsChange}
                 layout="vertical"
                 requiredMark={false}
@@ -109,7 +127,7 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
                             {isSubmitting || isLoadingTemplate ? '...' : 'Preview'}
                         </Button>
                         <Button
-                            onClick={onSubmit}
+                            onClick={onSubmitFunction}
                             className="form-button"
                             type="primary"
                             htmlType="submit"

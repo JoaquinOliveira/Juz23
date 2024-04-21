@@ -86,6 +86,55 @@ export const handleSubmitTipo = createAsyncThunk(
     }
 );
 
+export const handleSubmitOficios = createAsyncThunk(
+    'form/handleSubmitOficios',
+    async (values, { dispatch, getState }) => {
+        dispatch(setSubmitting(true));
+        try {
+            const subTipo = getState().form.subTipo;
+            const nombreArchivoPlantilla = `${subTipo}.docx`;
+            dispatch(setLoadingTemplate(true));
+            const templateUrl = await obtenerUrlDescarga(nombreArchivoPlantilla);
+            dispatch(setLoadingTemplate(false));
+
+            const { destino, ...restFormValues } = values;
+
+            for (const dest of destino) {
+                let destinoNombre = '';
+                let encabezado = '';
+
+                switch (dest) {
+                    case 'Al Sr. Jefe de la Policía Federal Argentina.':
+                        destinoNombre = 'PFA';
+                        encabezado = 'Al Sr. Jefe de la Policia Federal Argentina.';
+                        break;
+                    case 'Al Sr. Director del Registro Nacional de Reincidencia.':
+                        destinoNombre = 'Reincidencia';
+                        encabezado = 'Al Sr. Director del Registro Nacional de Reincidencia.';
+                        break;
+                    case 'Al Sr. Jefe de la Policia de la Ciudad de Buenos Aires.':
+                        destinoNombre = 'PCABA';
+                        encabezado = 'Al Sr. Jefe de la Policia de la Ciudad de Buenos Aires.';
+                        break;
+                    default:
+                        break;
+                }
+
+                const modifiedFormValues = { ...restFormValues, destino: dest, encabezado };
+                const modifiedDocument = await fillWordTemplate(modifiedFormValues, templateUrl);
+                await downloadBlob(modifiedDocument, `${subTipo}_${destinoNombre}.docx`);
+            }
+
+            return 'Los oficios se han generado correctamente';
+        } catch (error) {
+            console.error('Error:', error);
+            throw new Error('Ha ocurrido un error al generar los oficios');
+        } finally {
+            dispatch(setSubmitting(false));
+        }
+    }
+);
+
 const formSlice = createSlice({
     name: 'form',
     initialState: {
@@ -109,7 +158,8 @@ const formSlice = createSlice({
         setSubTipo: (state, action) => {
             state.subTipo = action.payload;
         },
-        setPreviewUrl: (state, action) => {; //
+        setPreviewUrl: (state, action) => {
+            ; //
             state.previewBlob = action.payload;
         },
     },
