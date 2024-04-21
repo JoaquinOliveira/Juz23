@@ -38,7 +38,19 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
     }, [subTipo, form]);
 
     const saveFormData = (values) => {
-        localStorage.setItem(`formData_${subTipo}`, JSON.stringify(values));
+        // Verificar si todos los campos del formulario están vacíos
+        const isFormEmpty = values.every((field) => {
+            if (field.value === '' || field.value === null || field.value === undefined) {
+                return true;
+            }
+            return false;
+        });
+
+        if (isFormEmpty) {
+            localStorage.removeItem(`formData_${subTipo}`);
+        } else {
+            localStorage.setItem(`formData_${subTipo}`, JSON.stringify(values));
+        }
     };
 
     const handleFieldsChange = (changedFields, allFields) => {
