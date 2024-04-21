@@ -1,5 +1,5 @@
 // BaseForm.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Space, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { handleSubmit, generatePreview } from '../../../redux/formSlice';
@@ -11,10 +11,46 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [previewContent, setPreviewContent] = useState('');
 
+
+    
+    useEffect(() => {
+        const loadFormData = () => {
+            const savedData = localStorage.getItem(`formData_${subTipo}`);
+            console.log('Saved Data:', savedData);
+            
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                console.log('Parsed Data:', parsedData);
+                
+                const formValues = parsedData.reduce((acc, field) => {
+                    if (field.name && field.name.length > 0) {
+                        acc[field.name[0]] = field.value;
+                    }
+                    return acc;
+                }, {});
+                
+                console.log('Form Values:', formValues);
+                form.setFieldsValue(formValues);
+            }
+        };
+
+        loadFormData();
+    }, [subTipo, form]);
+
+    const saveFormData = (values) => {
+        localStorage.setItem(`formData_${subTipo}`, JSON.stringify(values));
+    };
+
+    const handleFieldsChange = (changedFields, allFields) => {
+        saveFormData(allFields);
+        onFieldsChange && onFieldsChange(changedFields, allFields);
+    };
+
     const onSubmit = async () => {
         try {
             const values = await form.validateFields();
             const result = await dispatch(handleSubmit(values)).unwrap();
+            localStorage.removeItem(`formData_${subTipo}`);
             message.success(result.payload);
         } catch (error) {
             message.error(error.message);
@@ -44,7 +80,7 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
                 className="form-item"
                 form={form}
                 onFinish={onSubmit}
-                onFieldsChange={onFieldsChange}
+                onFieldsChange={handleFieldsChange}
                 layout="vertical"
                 requiredMark={false}
             >
