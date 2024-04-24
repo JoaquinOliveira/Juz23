@@ -49,7 +49,7 @@ const ResolutionForm = () => {
                     onChange={handleTipoChange}
                     placeholder="Seleccione un tipo de resolución"
                 >
-                    {resolutionTypesArray.map((tipo) => (
+                    {resolutionTypesArray.sort().map((tipo) => (
                         <Option key={tipo} value={tipo}>
                             {tipo}
                         </Option>
@@ -62,7 +62,7 @@ const ResolutionForm = () => {
                     placeholder="Seleccione un subtipo"
                     disabled={!tipoResolucion}
                 >
-                    {subTypesArray.map((subtipo) => (
+                    {subTypesArray.sort().map((subtipo) => (
                         <Option key={subtipo} value={subtipo}>
                             {subtipo}
                         </Option>

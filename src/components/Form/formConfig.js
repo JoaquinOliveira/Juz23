@@ -14,6 +14,11 @@ import Prematura from '../Incompetencias/Prematura';
 import ExtincionPenal from '../Spp/ExtincionPenal';
 import Comunica from '../Oficios/Comunica'
 import Telex from '../Oficios/Telex';
+import Inicio from '../Ablacion/Inicio';
+import OficioMorgue from '../Ablacion/OficioMorgue';
+import OficioAblacion from '../Ablacion/OficioAblacion';
+import AutorizacionAblacion from '../Ablacion/AutorizacionAblacion';
+
 
 
 export const formComponentMap = {
@@ -40,6 +45,12 @@ export const formComponentMap = {
     Oficios: {
         'comunica': Comunica,
         'telex': Telex
+    },
+    Ablacion: {
+        'oficio ablacion': OficioAblacion,
+        'autorizacion ablacion': AutorizacionAblacion,
+        'oficio morgue': OficioMorgue,
+        'inicio': Inicio
     }
 };
 
@@ -58,5 +69,6 @@ export const resolutionTypes = {
     ],
     Spp: ['contravencional', 'penal'],
     Extinciones: ['extincion contravencional', 'extincion penal'],
-    Oficios: ['comunica', 'telex']
+    Oficios: ['comunica', 'telex'],
+    Ablacion: ['oficio ablacion', 'autorizacion ablacion', 'oficio morgue', 'inicio']
 };
