@@ -10,7 +10,7 @@ import DatosField from '../Form/Modulos-Reutilizables/DatosField';
 import DiaField from '../Form/Modulos-Reutilizables/DiaField';
 import ResolutionField from '../Form/Modulos-Reutilizables/ResolutionField'
 import OficinasField from '../Form/Modulos-Reutilizables/OficinasField'
-
+import RebeldeField from '../Form/Modulos-Reutilizables/RebeldeField'
 
 
 const Comunica = ({ subTipo }) => {
@@ -50,6 +50,7 @@ const Comunica = ({ subTipo }) => {
             <DiaField />
             <ResolutionField />
             <OficinasField />
+            <RebeldeField />
         </BaseForm>
     );
 };

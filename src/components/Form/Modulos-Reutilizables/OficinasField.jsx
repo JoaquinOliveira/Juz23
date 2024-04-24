@@ -3,7 +3,7 @@ import { Form, Checkbox } from 'antd';
 
 
 
-const FiscaliaField = ({ rows }) => {
+const FiscaliaField = () => {
     return (
         <Form.Item name="destino" label="Destinos">
             <Checkbox.Group>
