@@ -13,7 +13,7 @@ import OficinasField from '../Form/Modulos-Reutilizables/OficinasField'
 
 
 
-const Oficios = ({ subTipo }) => {
+const Comunicacion = ({ subTipo }) => {
     const dispatch = useDispatch();
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
@@ -54,4 +54,4 @@ const Oficios = ({ subTipo }) => {
     );
 };
 
-export default Oficios;
+export default Comunicacion;
