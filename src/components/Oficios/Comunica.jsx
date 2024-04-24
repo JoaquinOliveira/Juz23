@@ -13,7 +13,7 @@ import OficinasField from '../Form/Modulos-Reutilizables/OficinasField'
 
 
 
-const Comunicacion = ({ subTipo }) => {
+const Comunica = ({ subTipo }) => {
     const dispatch = useDispatch();
     const isFormValid = useSelector((state) => state.form.isFormValid);
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
@@ -39,7 +39,7 @@ const Comunicacion = ({ subTipo }) => {
             isFormValid={isFormValid}
             isSubmitting={isSubmitting}
             isLoadingTemplate={isLoadingTemplate}
-            formTitle="Formulario de Oficios Comunicación"
+            formTitle="Formulario de Comunicación"
 
         >
             <FechaField />
@@ -54,4 +54,4 @@ const Comunicacion = ({ subTipo }) => {
     );
 };
 
-export default Comunicacion;
+export default Comunica;

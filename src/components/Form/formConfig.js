@@ -38,7 +38,7 @@ export const formComponentMap = {
         'extincion contravencional': ExtincionC,
     },
     Oficios: {
-        'oficios': Comunica,
+        'comunica': Comunica,
         'telex': Telex
     }
 };
