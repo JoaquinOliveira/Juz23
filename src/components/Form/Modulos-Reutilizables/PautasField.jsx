@@ -1,14 +1,16 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 
-const PautasField = () => (
+const { TextArea } = Input;
+
+const PautasField = ({rows}) => (
     <Form.Item
         className="form-item"
         label="Pautas de SPP"
         name="pautas"
         rules={[{ required: true, message: 'Las Pautas son obligatorias' }]}
     >
-        <Input placeholder="Ingrese las pautas, con la numeración correspondiente" />
+        <TextArea placeholder="Ingrese las pautas, con la numeración correspondiente" rows={rows} />
     </Form.Item>
 );
 
