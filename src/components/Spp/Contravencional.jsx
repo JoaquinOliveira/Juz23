@@ -23,7 +23,7 @@ const Contravencional = ({ subTipo }) => {
     }, [dispatch, subTipo]);
 
     const onFieldsChange = (_, allFields) => {
-        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'datos', 'plazo', 'pautas', 'imputado', 'articulo'];
+        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'datos', 'tiempo', 'pautas', 'imputado', 'articulo'];
         const isValid = requiredFields.every((field) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;

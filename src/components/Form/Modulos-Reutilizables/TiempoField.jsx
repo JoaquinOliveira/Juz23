@@ -9,7 +9,7 @@ const TiempoField = () => {
     <Form.Item
         className="form-item"
         label="Tiempo de SPP"
-        name="plazo"
+        name="tiempo"
         rules={[
             {
                 required: true,
