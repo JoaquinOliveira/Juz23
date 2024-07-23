@@ -15,7 +15,9 @@ const Login = ({ onLogin }) => {
         try {
             const config = getConfig();
             const { username, password } = values;
+            console.log(password)
             const isAuthenticated = await login(username, password, config);
+        
 
             if (isAuthenticated) {
                 message.success('Inicio de sesión exitoso');

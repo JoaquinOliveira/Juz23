@@ -85,15 +85,15 @@ body.dark-mode .form-button:disabled {
 }
 
 
-.form-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 40px;
-  background-color: var(--form-background-color);
-  border: 2px solid var(--form-border-color);
-  border-radius: 16px;
-  color: var(--text-color);
-}
+  .form-container {
+
+    margin: 0 auto;
+    padding: 40px;
+    background-color: var(--form-background-color);
+    border: 2px solid var(--form-border-color);
+    border-radius: 16px;
+    color: var(--text-color);
+  }
 
 .form-title {
   text-align: center;
@@ -185,9 +185,9 @@ body.light-mode .ant-select-selection-item-remove:hover {
 
 .form-container {
   background-color: #f5f5f5;  /* Fondo gris */
-  padding: 20px;              /* Espaciado interior para evitar que se tope con los bordes */
+            /* Espaciado interior para evitar que se tope con los bordes */
   width: 100%;                /* Ancho del formulario */
-  max-width: 500px;           /* Máximo ancho del formulario */
+  max-width: 1000px;           /* Máximo ancho del formulario */
   margin: 20px auto;          /* Centrar el formulario y añadir espacio arriba y abajo */
   border-radius: 8px;         /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra ligera para dar profundidad */

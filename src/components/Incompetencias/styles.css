@@ -52,6 +52,21 @@ body {
   margin-right: 200px; /* Ajusta este valor según tus necesidades */
 }
 
+.ant-form-item {
+  margin-bottom: 16px;
+}
+
+.ant-input, .ant-select {
+  width: 100%;
+}
+
+.ant-form-item-label {
+  padding-bottom: 4px;
+}
+
+.form-title {
+  margin-bottom: 24px;
+}
 
 @media screen and (max-width: 768px) {
   .ant-layout-content {
@@ -67,4 +82,20 @@ body {
   .ant-space-item {
     margin-right: 50px;
   }
+}
+
+.ant-form-item {
+  margin-bottom: 16px;
+}
+
+.ant-input, .ant-select {
+  width: 100%;
+}
+
+.ant-form-item-label {
+  padding-bottom: 4px;
+}
+
+.form-title {
+  margin-bottom: 24px;
 }

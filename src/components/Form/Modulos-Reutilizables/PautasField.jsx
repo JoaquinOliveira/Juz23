@@ -6,7 +6,7 @@ const { TextArea } = Input;
 const PautasField = ({rows}) => (
     <Form.Item
         className="form-item"
-        label="Pautas de SPP"
+        label="Pautas"
         name="pautas"
         rules={[{ required: true, message: 'Las Pautas son obligatorias' }]}
     >

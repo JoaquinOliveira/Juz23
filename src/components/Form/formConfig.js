@@ -18,6 +18,7 @@ import Inicio from '../Ablacion/Inicio';
 import OficioMorgue from '../Ablacion/OficioMorgue';
 import OficioAblacion from '../Ablacion/OficioAblacion';
 import AutorizacionAblacion from '../Ablacion/AutorizacionAblacion';
+import Preventivas from '../Medidas/Preventivas';
 
 
 
@@ -51,6 +52,9 @@ export const formComponentMap = {
         'autorizacion ablacion': AutorizacionAblacion,
         'oficio morgue': OficioMorgue,
         'inicio': Inicio
+    },
+    Medidas: {
+        'preventivas': Preventivas
     }
 };
 
@@ -70,5 +74,6 @@ export const resolutionTypes = {
     Spp: ['contravencional', 'penal'],
     Extinciones: ['extincion contravencional', 'extincion penal'],
     Oficios: ['comunica', 'telex'],
-    Ablacion: ['oficio ablacion', 'autorizacion ablacion', 'oficio morgue', 'inicio']
+    Ablacion: ['oficio ablacion', 'autorizacion ablacion', 'oficio morgue', 'inicio'],
+    Medidas: ['preventivas']
 };
