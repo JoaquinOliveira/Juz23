@@ -50,3 +50,20 @@ export const downloadBlob = (blob, filename) => {
     link.click();
     document.body.removeChild(link);
 };
+
+export const downloadBlob2 = (blob, filename) => {
+    return new Promise((resolve) => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Esperar un tiempo antes de resolver la promesa
+        setTimeout(() => {
+            URL.revokeObjectURL(link.href); // Liberar la URL del objeto
+            resolve();
+        }, 500); // Esperar 500ms antes de continuar
+    });
+};

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Space, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { handleSubmit, generatePreview, handleSubmitOficios } from '../../../redux/formSlice';
+import { handleSubmit, generatePreview, handleSubmitOficios, handleSubmitTipo } from '../../../redux/formSlice';
 import DocumentPreview from '../../Incompetencias/DocumentPreview';
 
 const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadingTemplate, formTitle, children }) => {
@@ -95,7 +95,8 @@ const BaseForm = ({ subTipo, onFieldsChange, isFormValid, isSubmitting, isLoadin
     };
 
     const getOnSubmitFunction = () => {
-        if (subTipo === 'oficios') {
+        console.log(subTipo)
+        if (subTipo === 'comunica') {
             return onSubmitOficios;
         }
         return onSubmit;

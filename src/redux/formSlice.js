@@ -1,7 +1,7 @@
 // formSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import obtenerUrlDescarga from '../firebase/firestore';
-import { fillWordTemplate, downloadBlob } from '../utils/docProcessor';
+import { fillWordTemplate, downloadBlob, downloadBlob2 } from '../utils/docProcessor';
 import { renderAsync } from 'docx-preview';
 
 
@@ -59,6 +59,7 @@ export const handleSubmitTipo = createAsyncThunk(
     async (formValues, { dispatch, getState }) => {
         dispatch(setSubmitting(true));
         try {
+
             const subTipo = getState().form.subTipo;
             const nombreArchivoPlantilla = `${subTipo}.docx`;
             dispatch(setLoadingTemplate(true));
@@ -85,12 +86,12 @@ export const handleSubmitTipo = createAsyncThunk(
         }
     }
 );
-
 export const handleSubmitOficios = createAsyncThunk(
     'form/handleSubmitOficios',
     async (values, { dispatch, getState }) => {
         dispatch(setSubmitting(true));
         try {
+            console.log('se està usando esta')
             const subTipo = getState().form.subTipo;
             const nombreArchivoPlantilla = `${subTipo}.docx`;
             dispatch(setLoadingTemplate(true));
@@ -99,6 +100,7 @@ export const handleSubmitOficios = createAsyncThunk(
 
             const { destino, ...restFormValues } = values;
 
+            // Esperar a que cada oficio se genere y descargue
             for (const dest of destino) {
                 let destinoNombre = '';
                 let encabezado = '';
@@ -122,7 +124,7 @@ export const handleSubmitOficios = createAsyncThunk(
 
                 const modifiedFormValues = { ...restFormValues, destino: dest, encabezado };
                 const modifiedDocument = await fillWordTemplate(modifiedFormValues, templateUrl);
-                await downloadBlob(modifiedDocument, `${subTipo}_${destinoNombre}.docx`);
+                await downloadBlob2(modifiedDocument, `${subTipo}_${destinoNombre}.docx`); // Usar await aquí
             }
 
             return 'Los oficios se han generado correctamente';
