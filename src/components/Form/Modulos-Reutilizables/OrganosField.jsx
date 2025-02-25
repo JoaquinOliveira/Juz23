@@ -3,7 +3,7 @@ import { Form, Input } from 'antd';
 
 
 
-const Organos = () => (
+const OrganosField = () => (
     <Form.Item
         className="form-item"
         label="Organos"
@@ -14,4 +14,4 @@ const Organos = () => (
     </Form.Item>
 );
 
-export default Organos
+export default OrganosField

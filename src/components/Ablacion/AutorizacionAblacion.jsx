@@ -15,12 +15,12 @@ const AutorizacionAblacion = ({ subTipo }) => {
     const isSubmitting = useSelector((state) => state.form.isSubmitting);
     const isLoadingTemplate = useSelector((state) => state.form.isLoadingTemplate);
 
-    useEffect(() => {
+ useEffect(() => {
         dispatch(setSubTipo(subTipo));
     }, [dispatch, subTipo]);
 
     const onFieldsChange = (_, allFields) => {
-        const requiredFields = ['fecha', 'hospital', 'imputado', 'dni', 'datos', 'organos'];
+        const requiredFields = ['fecha', 'imputado', 'dni', 'organos'];
         const isValid = requiredFields.every((field) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
