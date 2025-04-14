@@ -20,7 +20,7 @@ const Prematura = ({ subTipo }) => {
     }, [dispatch, subTipo]);
 
     const onFieldsChange = (_, allFields) => {
-        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscalia'];
+        const requiredFields = ['fecha', 'causa', 'caratula', 'hechos', 'fiscal'];
         const isValid = requiredFields.every((field) => {
             const fieldValue = allFields.find((f) => f.name[0] === field);
             return fieldValue && fieldValue.errors.length === 0 && fieldValue.touched;
